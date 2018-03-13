@@ -1,0 +1,14 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "@degordian/standards/tslint",
+    "tslint-sonarts"
+  ],
+  "jsRules": {},
+  "rules": {
+    "no-console": false,
+    "no-commented-code": false,
+    "object-literal-key-quotes": false
+  },
+  "rulesDirectory": []
+}

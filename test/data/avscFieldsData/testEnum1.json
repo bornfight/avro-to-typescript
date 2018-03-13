@@ -1,0 +1,10 @@
+{
+    "type": "enum",
+    "name": "OAuthStatus",
+    "doc": "* `PENDING`: the user has started authorizing, but not yet finished\n* `ACTIVE`: the token should work\n* `DENIED`: the user declined the authorization\n* `EXPIRED`: the token used to work, but now it doesn't\n* `REVOKED`: the user has explicitly revoked the token",
+    "symbols": [
+        "test1",
+        "test2",
+        "test3"
+    ]
+}
