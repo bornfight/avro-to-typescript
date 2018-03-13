@@ -1,7 +1,7 @@
 import * as path from "path";
-import {MainCompiler} from "./components/avroToTypescript/MainCompiler";
+import {AvroToTypescriptCompiler} from "./components/AvroToTypescriptCompiler";
 
-const avroToTypescriptCompiler = new MainCompiler();
+const avroToTypescriptCompiler = new AvroToTypescriptCompiler();
 const avroPath = path.resolve( __dirname, `../../_avsc`);
 const tsCompiledPath = path.resolve( __dirname, `../../_tsCompiled`);
 avroToTypescriptCompiler.tsSchemaPath = path.resolve( tsCompiledPath, `user.ts`);

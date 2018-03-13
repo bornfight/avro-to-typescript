@@ -1,17 +1,17 @@
-import {BaseCompiler} from "../../core/BaseCompiler";
-import {FileHelper} from "../../helpers/FileHelper";
-import {TypeHelper} from "../../helpers/TypeHelper";
-import {AvroSchemaInterface} from "../../interfaces/AvroSchemaInterface";
-import {AvroSchemaConverter} from "./AvroSchemaConverter";
+import {BaseCompiler} from "../core/BaseCompiler";
+import {FileHelper} from "../helpers/FileHelper";
+import {TypeHelper} from "../helpers/TypeHelper";
+import {AvroSchemaInterface} from "../interfaces/AvroSchemaInterface";
+import {AvroSchemaConverter} from "./avroToTypescript/AvroSchemaConverter";
 
-export class MainCompiler extends BaseCompiler {
+export class AvroToTypescriptCompiler extends BaseCompiler {
     public tsSchemaContent: string;
 
     public async compile(): Promise<void> {
 
         if (this.isCompileReady() === false) {
-            this.addError(MainCompiler.errorMessage.notCompileReady);
-            throw new Error(MainCompiler.errorMessage.notCompileReady);
+            this.addError(AvroToTypescriptCompiler.errorMessage.notCompileReady);
+            throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
         }
 
         const schemaConverter = new AvroSchemaConverter();
@@ -26,7 +26,7 @@ export class MainCompiler extends BaseCompiler {
         }
 
         if (this.isCompileReady() === false) {
-            throw new Error(MainCompiler.errorMessage.notCompileReady);
+            throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
         }
 
         const tsSchemaContent = await schemaConverter.convert(schemaContent);

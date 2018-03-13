@@ -1,4 +1,4 @@
-import {MainCompiler} from "../components/avroToTypescript/MainCompiler";
+import {AvroToTypescriptCompiler} from "../components/AvroToTypescriptCompiler";
 import {ErrorHandler, ErrorHandlerInterface} from "../mixins/ErrorHandler";
 
 @ErrorHandler()
@@ -37,11 +37,11 @@ export abstract class BaseCompiler implements ErrorHandlerInterface {
 
     protected isCompileReady(): boolean {
         if (this.avroSchemaPath === undefined) {
-            this.addError(MainCompiler.errorMessage.avroSchemaPathIsUndefined);
+            this.addError(AvroToTypescriptCompiler.errorMessage.avroSchemaPathIsUndefined);
         }
 
         if (this.tsSchemaPath === undefined) {
-            this.addError(MainCompiler.errorMessage.tsSchemaPathIsUndefined);
+            this.addError(AvroToTypescriptCompiler.errorMessage.tsSchemaPathIsUndefined);
         }
 
         if (this.hasErrors() === true) {

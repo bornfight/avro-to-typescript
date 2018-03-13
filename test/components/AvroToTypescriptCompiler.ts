@@ -2,13 +2,13 @@ import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import sinonChai = require("sinon-chai");
-import {MainCompiler} from "../../../src/components/avroToTypescript/MainCompiler";
+import {AvroToTypescriptCompiler} from "../../src/components/AvroToTypescriptCompiler";
 const expect = chai.expect;
 
 chai.should();
 chai.use(sinonChai);
 
-const root = path.resolve(__dirname, `../../../../`);
+const root = path.resolve(__dirname, `../../../`);
 const tsExpectedRoot = `${root}/test/data/expectedTsTypes`;
 const tsCompiledRoot = `${root}/test/data/tsCompiled`;
 const avscRoot = `${root}/test/data/avscFieldsData`;
@@ -23,15 +23,17 @@ describe("Testing RecordConverter", () => {
         const tsCompiledFile = `${tsCompiledRoot}/testAvscSchemaUser.ts`;
         const tsExpectedFile = `${tsExpectedRoot}/testAvscSchemaUser.ts`;
 
-        await testMainCompiler(
+        await testAvroToTypescriptCompiler(
             avscFile,
             tsCompiledFile,
             tsExpectedFile,
         );
     });
 
-    async function testMainCompiler(avscPath: string, tsCompiledPath: string, tsExpectedPath: string): Promise<void> {
-        const mainCompiled = new MainCompiler();
+    async function testAvroToTypescriptCompiler(avscPath: string,
+                                                tsCompiledPath: string,
+                                                tsExpectedPath: string): Promise<void> {
+        const mainCompiled = new AvroToTypescriptCompiler();
         mainCompiled.tsSchemaPath = tsCompiledPath;
         mainCompiled.avroSchemaPath = avscPath;
         await mainCompiled.compile();
