@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import sinonChai = require("sinon-chai");
 import {EnumConverter} from "../../../src/components/avroToTypescript/EnumConverter";
-import {EnumType, Type} from "../../../src/interfaces/AvroSchemaInterface";
+import {EnumType} from "../../../src/interfaces/AvroSchemaInterface";
 
 const expect = chai.expect;
 
