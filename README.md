@@ -1,6 +1,6 @@
 # avro-to-typescript
 
-[![N|Solid](https://www.degordian.com/static/img/logo-degordian_d@2x.png)](https://www.degordian.com/)
+[![N|Solid](https://i.vimeocdn.com/portrait/7264448_300x300)](https://www.degordian.com/)
 
 Modules is used to compile avro schemas to typescript interfaces.
 
