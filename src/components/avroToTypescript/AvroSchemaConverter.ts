@@ -15,6 +15,7 @@ export class AvroSchemaConverter extends BaseConverter {
 
         if (TypeHelper.isRecordType(avroSchema) === false) {
             recordConverter.convertType(avroSchema);
+            content = recordConverter.joinExports();
         }
 
         return content;
