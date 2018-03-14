@@ -8,17 +8,17 @@ export interface ErrorHandlerInterface {
     errorType: string;
 }
 
-export enum errorHandlerTypes {
+export enum ErrorHandlerTypes {
     WARN = "warn",
     THROW_ERROR = "throw_error",
 }
 
 export interface ErrorHandlerConfigurationInterface {
-    errorType?: errorHandlerTypes;
+    errorType?: ErrorHandlerTypes;
 }
 
 export class ErrorHandlerMixin extends Mixin {
-    public errorType = errorHandlerTypes.WARN;
+    public errorType = ErrorHandlerTypes.WARN;
     protected errors: string[] = [];
 
     public hasErrors(): boolean {
@@ -34,11 +34,11 @@ export class ErrorHandlerMixin extends Mixin {
             this.errors = [];
         }
 
-        if (this.errorType === errorHandlerTypes.WARN) {
+        if (this.errorType === ErrorHandlerTypes.WARN) {
             console.log("Error added: ", errorMessage);
         }
 
-        if (this.errorType === errorHandlerTypes.THROW_ERROR) {
+        if (this.errorType === ErrorHandlerTypes.THROW_ERROR) {
             throw new Error(errorMessage);
         }
 
