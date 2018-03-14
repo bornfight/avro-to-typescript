@@ -29,7 +29,7 @@
     "premocha": "npm run build"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@degordian/standards": "^1.0.6",
     "@degordian/testing-toolkit": "^1.0.17",
