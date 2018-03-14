@@ -1,7 +1,7 @@
-# avro-to-typescript
+# avro-to-typescript [![Build Status](https://travis-ci.org/degordian/avro-to-typescript.svg?branch=master)](https://travis-ci.org/degordian/avro-to-typescript)
 
 Modules is used to compile avro schemas to typescript interfaces.
-[![Build Status](https://travis-ci.org/degordian/avro-to-typescript.svg?branch=master)](https://travis-ci.org/degordian/avro-to-typescript)
+
 # Usage
 ```sh
 npm install avro-to-typescript
