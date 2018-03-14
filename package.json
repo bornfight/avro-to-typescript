@@ -26,6 +26,7 @@
     "jenkins:mocha:junit": "mocha dist/test --reporter=mocha-junit-reporter --reporter-options mochaFile=mocha.xml --recursive",
     "jenkins:mocha:html": "mocha dist/test --reporter=doc --recursive",
     "jenkins:tslint": "tslint --project tsconfig.json -o tslint.xml -t checkstyle",
+    "travis:test": "npm run build && npm run test",
     "premocha": "npm run build"
   },
   "author": "",
