@@ -1,7 +1,7 @@
 {
   "name": "@degordian/avro-to-typescript",
   "version": "1.0.0",
-  "description": "",
+  "description": "Modules is used to compile avro schemas to typescript interfaces.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "directories": {
@@ -29,8 +29,12 @@
     "travis:test": "npm run build && npm run test",
     "premocha": "npm run build"
   },
-  "author": "",
+  "author": "Degordian (https://www.degordian.com/)",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/degordian/avro-to-typescript/issues"
+  },
+  "homepage": "https://github.com/degordian/avro-to-typescript#readme",
   "dependencies": {
     "@degordian/standards": "^1.0.6",
     "@degordian/testing-toolkit": "^1.0.17",
