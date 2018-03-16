@@ -8,7 +8,8 @@
   "rules": {
     "no-console": false,
     "no-commented-code": false,
-    "object-literal-key-quotes": false
+    "object-literal-key-quotes": false,
+    "max-line-length": [true, 150]
   },
   "rulesDirectory": []
 }

@@ -1,5 +1,11 @@
 import * as chai from "chai";
 import * as fs from "fs";
+import {
+    only,
+    skip,
+    suite,
+    test,
+} from "mocha-typescript";
 import * as path from "path";
 import sinonChai = require("sinon-chai");
 import {RecordConverter} from "../../../src/components/avroToTypescript/RecordConverter";
@@ -13,57 +19,9 @@ const dataRoot = path.resolve(`${__dirname}/../../../../test/data`);
 const avscFieldsDataRoot = `${dataRoot}/avscFieldsData`;
 const expectedTsTypesRoot = `${dataRoot}/expectedTsTypes`;
 
-describe("Testing RecordConverter", () => {
-
-    it(`should return same content as in ./data/expectedTsTypes/testRecordSimple.ts
-    when given testRecordSimple.json`, () => {
-        testRecordConverter(
-            `${avscFieldsDataRoot}/testRecordSimple.json`,
-            `${expectedTsTypesRoot}/testRecordSimple.ts`,
-        );
-    });
-
-    it(`should return same content as in ./data/expectedTsTypes/testRecordWithEnum.ts
-    when given testRecordWithEnum.json`, () => {
-        testRecordConverter(
-            `${avscFieldsDataRoot}/testRecordWithEnum.json`,
-            `${expectedTsTypesRoot}/testRecordWithEnum.ts`,
-        );
-    });
-
-    it(`should return same content as in ./data/expectedTsTypes/testRecordWithInterface.ts
-    when given testRecordWithInterface.json`, () => {
-        testRecordConverter(
-            `${avscFieldsDataRoot}/testRecordWithInterface.json`,
-            `${expectedTsTypesRoot}/testRecordWithInterface.ts`,
-        );
-    });
-
-    it(`should return same content as in ./data/expectedTsTypes/testRecordWithMapType.ts
-    when given testRecordWithMapType.json`, () => {
-        testRecordConverter(
-            `${avscFieldsDataRoot}/testRecordWithMapType.json`,
-            `${expectedTsTypesRoot}/testRecordWithMapType.ts`,
-        );
-    });
-
-    it(`should return same content as in ./data/expectedTsTypes/testRecordMapTypeInterfaceEnum.ts
-    when given testRecordMapTypeInterfaceEnum.json`, () => {
-        testRecordConverter(
-            `${avscFieldsDataRoot}/testRecordMapTypeInterfaceEnum.json`,
-            `${expectedTsTypesRoot}/testRecordMapTypeInterfaceEnum.ts`,
-        );
-    });
-
-    it(`should return same content as in ./data/expectedTsTypes/testRecordWithUnion.ts
-    when given testRecordWithUnion.json`, () => {
-        testRecordConverter(
-            `${avscFieldsDataRoot}/testRecordWithUnion.json`,
-            `${expectedTsTypesRoot}/testRecordWithUnion.ts`,
-        );
-    });
-
-    function testRecordConverter(recordJsonPath: string, expectedTsPath: string) {
+@suite("Testing RecordConverter")
+class TestingRecordConverter {
+    protected testRecordConverter(recordJsonPath: string, expectedTsPath: string) {
         const recordConverter = new RecordConverter();
         const recordType: RecordType =
             JSON.parse(fs.readFileSync(recordJsonPath).toString());
@@ -73,4 +31,45 @@ describe("Testing RecordConverter", () => {
         expect(result).equal(expectedTsType);
     }
 
-});
+    @test private "should equal ./data/expectedTsTypes/testRecordSimple.ts when given testRecordSimple.json"() {
+        this.testRecordConverter(
+            `${avscFieldsDataRoot}/testRecordSimple.json`,
+            `${expectedTsTypesRoot}/testRecordSimple.ts`,
+        );
+    }
+
+    @test private "should equal ./data/expectedTsTypes/testRecordWithEnum.ts when given testRecordWithEnum.json"() {
+        this.testRecordConverter(
+            `${avscFieldsDataRoot}/testRecordWithEnum.json`,
+            `${expectedTsTypesRoot}/testRecordWithEnum.ts`,
+        );
+    }
+
+    @test private "should eq ./data/expectedTsTypes/testRecordWithInterface.ts if given testRecordWithInterface.json"() {
+        this.testRecordConverter(
+            `${avscFieldsDataRoot}/testRecordWithInterface.json`,
+            `${expectedTsTypesRoot}/testRecordWithInterface.ts`,
+        );
+    }
+
+    @test private "should eq ./data/expectedTsTypes/testRecordWithMapType.ts if given testRecordWithMapType.json"() {
+        this.testRecordConverter(
+            `${avscFieldsDataRoot}/testRecordWithMapType.json`,
+            `${expectedTsTypesRoot}/testRecordWithMapType.ts`,
+        );
+    }
+
+    @test private "should eq ./data/expectedTsTypes/testRecordMapTypeInterfaceEnum.ts if given testRecordMapTypeInterfaceEnum.json"() {
+        this.testRecordConverter(
+            `${avscFieldsDataRoot}/testRecordMapTypeInterfaceEnum.json`,
+            `${expectedTsTypesRoot}/testRecordMapTypeInterfaceEnum.ts`,
+        );
+    }
+
+    @test private "should eq ./data/expectedTsTypes/testRecordWithUnion.ts if given testRecordWithUnion.json"() {
+        this.testRecordConverter(
+            `${avscFieldsDataRoot}/testRecordWithUnion.json`,
+            `${expectedTsTypesRoot}/testRecordWithUnion.ts`,
+        );
+    }
+}

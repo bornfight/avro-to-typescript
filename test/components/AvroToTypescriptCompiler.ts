@@ -13,7 +13,7 @@ const tsExpectedRoot = `${root}/test/data/expectedTsTypes`;
 const tsCompiledRoot = `${root}/test/data/tsCompiled`;
 const avscRoot = `${root}/test/data/avscFieldsData`;
 
-describe("Testing RecordConverter", () => {
+describe("Testing AvroToTypescriptCompiler", () => {
 
     it(`should create file ./data/tsCompiled/testAvscSchemaUser.ts with same content as in
     ./data/expectedTsTypes/testAvscSchemaUser.ts
