@@ -1,0 +1,10 @@
+    public static readonly schema: object = {{schema}};
+
+    public static deserialize(buffer: Buffer): {{className}} {
+        // @ts-ignore
+        return this.internalDeserialize(buffer) as className;
+    }
+
+    public schema(): object {
+         return {{className}}.schema;
+    }

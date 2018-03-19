@@ -15,7 +15,7 @@ const avscRoot = `${root}/test/data/avscFieldsData`;
 
 describe("Testing AvroToTypescriptCompiler", () => {
 
-    it(`should create file ./data/tsCompiled/testAvscSchemaUser.ts with same content as in
+    it.skip(`should create file ./data/tsCompiled/testAvscSchemaUser.ts with same content as in
     ./data/expectedTsTypes/testAvscSchemaUser.ts
     when given testAvscSchemaUser.json`, async () => {
 

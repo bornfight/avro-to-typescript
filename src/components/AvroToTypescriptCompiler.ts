@@ -2,10 +2,12 @@ import {BaseCompiler} from "../core/BaseCompiler";
 import {FileHelper} from "../helpers/FileHelper";
 import {TypeHelper} from "../helpers/TypeHelper";
 import {AvroSchemaInterface} from "../interfaces/AvroSchemaInterface";
+import {ExportModel} from "../models/ExportModel";
 import {AvroSchemaConverter} from "./avroToTypescript/AvroSchemaConverter";
 
 export class AvroToTypescriptCompiler extends BaseCompiler {
     public tsSchemaContent: string;
+    public exports: ExportModel[];
 
     public async compile(): Promise<void> {
 
@@ -34,6 +36,7 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         await tsFileHelper.save( tsSchemaContent );
 
         this.tsSchemaContent = tsSchemaContent;
+        this.exports = schemaConverter.exports;
 
         return;
     }

@@ -18,6 +18,7 @@ chai.use(sinonChai);
 const dataRoot = path.resolve(`${__dirname}/../../../../test/data`);
 const avscFieldsDataRoot = `${dataRoot}/avscFieldsData`;
 const expectedTsTypesRoot = `${dataRoot}/expectedTsTypes`;
+const expectedTsClassesRoot = `${dataRoot}/expectedTsClasses`;
 
 @suite("Testing RecordConverter")
 class TestingRecordConverter {
@@ -29,6 +30,23 @@ class TestingRecordConverter {
         recordConverter.convertRecord(recordType);
         const result = recordConverter.joinExports();
         expect(result).equal(expectedTsType);
+    }
+
+    protected testRecordClassConverter(recordJsonPath: string, expectedTsPath: string) {
+        const recordConverter = new RecordConverter();
+        const recordType: RecordType =
+            JSON.parse(fs.readFileSync(recordJsonPath).toString());
+        const expectedTsType = fs.readFileSync(expectedTsPath).toString();
+        recordConverter.convertRecordToClass(recordType);
+        const result = recordConverter.joinExports();
+        expect(result).equal(expectedTsType);
+    }
+
+    @test private "should equal ./data/expectedTsClasses/testAvscSchemaUser when given testAvscSchemaUser.avsc"() {
+        this.testRecordClassConverter(
+            `${avscFieldsDataRoot}/testAvscSchemaUser.avsc`,
+            `${expectedTsClassesRoot}/testAvscSchemaUser.ts`,
+        );
     }
 
     @test private "should equal ./data/expectedTsTypes/testRecordSimple.ts when given testRecordSimple.json"() {

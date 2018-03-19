@@ -8,6 +8,40 @@ import {PrimitiveConverter} from "./PrimitiveConverter";
 
 export class RecordConverter extends BaseConverter {
 
+    public convertRecordToClass( recordType: RecordType ): ExportModel {
+        const classRows: string[] = [];
+        const interfaceRows: string[] = [];
+        const classExportModel: ExportModel = new ExportModel();
+        const interfaceExportModel: ExportModel = new ExportModel();
+        const interfacePostFix = "Interface";
+
+        classRows.push(`export class ${recordType.name} implements ${recordType.name}Interface {`);
+        interfaceRows.push(`export interface ${recordType.name}${interfacePostFix} {`);
+
+        recordType.fields.forEach((field: Field) => {
+            const fieldType = `${this.getFieldType(field)}`;
+            const interfaceRow = `${SpecialCharacterHelper.TAB}${fieldType}`;
+            const classRow = `${SpecialCharacterHelper.TAB}public ${fieldType}`;
+
+            interfaceRows.push(interfaceRow);
+            classRows.push(classRow);
+        });
+
+        classRows.push(`}`);
+        interfaceRows.push(`}`);
+
+        classExportModel.name = recordType.name;
+        classExportModel.content = classRows.join(SpecialCharacterHelper.NEW_LINE);
+
+        interfaceExportModel.name = recordType.name + interfacePostFix;
+        interfaceExportModel.content = interfaceRows.join(SpecialCharacterHelper.NEW_LINE);
+
+        this.exports.push(interfaceExportModel);
+        this.exports.push(classExportModel);
+
+        return classExportModel;
+    }
+
     public convertRecord( recordType: RecordType ): ExportModel {
         const rows: string[] = [];
         const exportModel: ExportModel = new ExportModel();
