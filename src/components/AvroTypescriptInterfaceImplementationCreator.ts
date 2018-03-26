@@ -2,6 +2,9 @@ import {FileHelper} from "../helpers/FileHelper";
 import {PathHelper} from "../helpers/PathHelper";
 import {ExportModel} from "../models/ExportModel";
 
+/**
+ * @deprecated
+ */
 export class AvroTypescriptInterfaceImplementationCreator {
     public interfaceFilePath: string;
     public templatesPath = {
