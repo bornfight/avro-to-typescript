@@ -11,15 +11,37 @@ export class RecordConverter extends BaseConverter {
     public convertRecordToClass( recordType: RecordType ): ExportModel {
         const classRows: string[] = [];
         const interfaceRows: string[] = [];
+        const importRows: string[] = [];
+        const importExportModel: ExportModel = new ExportModel();
         const classExportModel: ExportModel = new ExportModel();
         const interfaceExportModel: ExportModel = new ExportModel();
         const interfacePostFix = "Interface";
+        const TAB = SpecialCharacterHelper.TAB;
+
+        importRows.push(`import {BaseAvroRecord} from "../../BaseAvroRecord";`);
 
         classRows.push(`export class ${recordType.name} implements ${recordType.name}Interface {`);
         interfaceRows.push(`export interface ${recordType.name}${interfacePostFix} {`);
 
+        classRows.push(``);
+
+        classRows.push(`${TAB}public static readonly subject: string = "${recordType.name}";`);
+        classRows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(recordType, null, 4)}`);
+
+        classRows.push(``);
+
+        classRows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${recordType.name} {`);
+        classRows.push(`${TAB}${TAB}const result = new ${recordType.name}();`);
+        classRows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema);`);
+        classRows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
+        classRows.push(``);
+        classRows.push(`${TAB}${TAB}return result;`);
+        classRows.push(`${TAB}}`);
+
+        classRows.push(``);
+
         recordType.fields.forEach((field: Field) => {
-            const fieldType = `${this.getFieldType(field)}`;
+            const fieldType = `${this.getField(field)}`;
             const interfaceRow = `${SpecialCharacterHelper.TAB}${fieldType}`;
             const classRow = `${SpecialCharacterHelper.TAB}public ${fieldType}`;
 
@@ -27,8 +49,23 @@ export class RecordConverter extends BaseConverter {
             classRows.push(classRow);
         });
 
+        classRows.push(``);
+
+        classRows.push(`${TAB}public schema(): object {`);
+        classRows.push(`${TAB}${TAB}return ${recordType.name}.schema;`);
+        classRows.push(`${TAB}}`);
+
+        classRows.push(``);
+
+        classRows.push(`${TAB}public subject(): string {`);
+        classRows.push(`${TAB}${TAB}return ${recordType.name}.subject;`);
+        classRows.push(`${TAB}}`);
+
         classRows.push(`}`);
         interfaceRows.push(`}`);
+
+        importExportModel.name = "imports";
+        importExportModel.content = importRows.join(SpecialCharacterHelper.NEW_LINE);
 
         classExportModel.name = recordType.name;
         classExportModel.content = classRows.join(SpecialCharacterHelper.NEW_LINE);
@@ -39,6 +76,8 @@ export class RecordConverter extends BaseConverter {
         this.exports.push(interfaceExportModel);
         this.exports.push(classExportModel);
 
+        this.exports.splice(0, 0, importExportModel);
+
         return classExportModel;
     }
 
@@ -48,7 +87,8 @@ export class RecordConverter extends BaseConverter {
 
         rows.push(`export interface ${recordType.name} {`);
         recordType.fields.forEach((field: Field) => {
-            rows.push(`${SpecialCharacterHelper.TAB}${this.getFieldType(field)}`);
+            const fieldType = `${this.getField(field)}`;
+            rows.push(`${SpecialCharacterHelper.TAB}${fieldType}`);
         });
         rows.push(`}`);
 
@@ -96,8 +136,11 @@ export class RecordConverter extends BaseConverter {
         return "any";
     }
 
-    public getFieldType(field: Field): string {
-
+    public getField(field: Field): string {
         return `${field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)};`;
+    }
+
+    public getFieldType(field: Field): string {
+        return `${this.convertType(field.type)}`;
     }
 }

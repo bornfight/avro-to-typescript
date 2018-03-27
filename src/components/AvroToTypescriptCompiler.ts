@@ -1,9 +1,13 @@
+import * as fs from "fs";
+import * as path from "path";
 import {BaseCompiler} from "../core/BaseCompiler";
+import {DirHelper} from "../helpers/DirHelper";
 import {FileHelper} from "../helpers/FileHelper";
 import {TypeHelper} from "../helpers/TypeHelper";
-import {AvroSchemaInterface} from "../interfaces/AvroSchemaInterface";
+import {AvroSchemaInterface, RecordType} from "../interfaces/AvroSchemaInterface";
 import {ExportModel} from "../models/ExportModel";
 import {AvroSchemaConverter} from "./avroToTypescript/AvroSchemaConverter";
+import {RecordConverter} from "./avroToTypescript/RecordConverter";
 
 export class AvroToTypescriptCompiler extends BaseCompiler {
     public tsSchemaContent: string;
@@ -16,28 +20,34 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
             throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
         }
 
-        const schemaConverter = new AvroSchemaConverter();
-        const schemaFileHelper = new FileHelper(this.avroSchemaPath);
-        const tsFileHelper = new FileHelper(this.tsSchemaPath);
-        const schemaFileContent: string = (await schemaFileHelper.getContent()).toString();
-
-        const schemaContent: AvroSchemaInterface = JSON.parse(schemaFileContent) as AvroSchemaInterface;
-
-        if (TypeHelper.isRecordType(schemaContent) === false) {
-            this.addError("Avro schema is not record type");
-        }
-
-        if (this.isCompileReady() === false) {
-            throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
-        }
-
-        const tsSchemaContent = await schemaConverter.convert(schemaContent);
-        await tsFileHelper.create();
-        await tsFileHelper.save( tsSchemaContent );
-
-        this.tsSchemaContent = tsSchemaContent;
-        this.exports = schemaConverter.exports;
+        fs.readdir(this.avroSchemaPath, (err, files) => {
+            files.forEach((file) => {
+                this.compileFile(file);
+            });
+        });
 
         return;
+    }
+
+    protected async compileFile(file: string) {
+        const recordConverter = new RecordConverter();
+        const recordType: RecordType =
+            JSON.parse(fs.readFileSync(this.avroSchemaPath + "/" + file).toString());
+
+        const namespace = recordType.namespace.replace(".", "/");
+        const outputDir = this.tsSchemaPath + namespace;
+
+        if (TypeHelper.isRecordType(recordType)) {
+            recordConverter.convertRecordToClass(recordType);
+        } else {
+            recordConverter.convertType(recordType);
+        }
+
+        const result = recordConverter.joinExports();
+
+        DirHelper.mkdirIfNotExist(outputDir);
+
+        fs.writeFileSync(path.resolve(`${outputDir}/${recordType.name}.ts`), result);
+        console.log(`Wrote ${recordType.name}.ts in ${outputDir}`);
     }
 }

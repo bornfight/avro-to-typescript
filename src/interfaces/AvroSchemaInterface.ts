@@ -15,6 +15,7 @@ export interface Field {
 export interface RecordType extends AvroSchemaInterface {
     type: "record";
     name: string;
+    namespace: string;
     fields: Field[];
 }
 
