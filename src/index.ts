@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+import * as args from "command-line-args";
+import * as cmdusage from "command-line-usage";
 import * as fs from "fs";
 import * as path from "path";
 import {AvroToTypescriptCompiler} from "./components/AvroToTypescriptCompiler";
@@ -9,17 +13,47 @@ export * from "./components/avroToTypescript/PrimitiveConverter";
 export * from "./components/avroToTypescript/AvroSchemaConverter";
 export * from "./components/avroToTypescript/RecordConverter";
 
-switch (process.argv[2]) {
-    case "-h":
-    case "--help":
-        console.log(ConsoleHelper.getUsage());
-        process.exit();
-        break;
+const cmdOptions = [
+    {
+        name: "compile",
+        alias: "c",
+        type: String,
+        typeLabel: "{underline schema-directory} {underline output-directory}",
+        description: "Compile schema directory into output directory",
+        multiple: true,
+    },
+    {
+        name: "help",
+        alias: "h",
+        description: "Print this usage guide.",
+    },
+];
 
-    case "--compile":
-        const args: string[] = ConsoleHelper.getArgs();
+const usageOptions = [
+    {
+        header: "avro-to-typescript",
+        content: "Compile avro schemas to typescript classes with ease. It will output to set directory " +
+        "and append namespace to path.",
+    },
+    {
+        header: "Options",
+        optionList: cmdOptions,
+    },
+    {
+        content: "Project home: {underline https://github.com/degordian/avro-to-typescript}",
+    },
+];
+try {
+    args(cmdOptions);
+} catch (e) {
+    ConsoleHelper.break("Invalid value or option used");
+}
 
-        let src: string = args[1];
+const options = args(cmdOptions);
+const usage = cmdusage(usageOptions);
+
+if (options.compile) {
+        let src: string = options.compile[0];
 
         if (src === undefined && fs.existsSync(src)) {
             ConsoleHelper.break("No source directory");
@@ -28,7 +62,7 @@ switch (process.argv[2]) {
             src += "/";
         }
 
-        let dist: string = args[2];
+        let dist: string = options.compile[1];
         if (dist === undefined) {
             ConsoleHelper.break("No output directory");
         }
@@ -42,9 +76,6 @@ switch (process.argv[2]) {
         compiler.avroSchemaPath = schemaDir;
         compiler.tsSchemaPath = dist;
         compiler.compile();
-        break;
-
-    default:
-        ConsoleHelper.break("No arguments");
-        break;
+} else {
+    console.log(usage);
 }

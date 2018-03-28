@@ -17,6 +17,5 @@ export class ConsoleHelper {
         process.exit();
     }
 
-    protected static _usage = "avro-to-typescript: package to compile avro schemas to typescript \n" +
-        "[ --compile ] [ schema-dir ] [ output-dir ]";
+    protected static _usage = "Check --help";;
 }

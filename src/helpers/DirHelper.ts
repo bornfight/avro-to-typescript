@@ -17,7 +17,7 @@ export class DirHelper {
         }
     }
 
-    protected static exists(dir: string): boolean {
+    public static exists(dir: string): boolean {
         return fs.existsSync(dir);
     }
 }

@@ -4,6 +4,9 @@
   "description": "Modules is used to compile avro schemas to typescript interfaces.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "bin": {
+    "avro-to-typescript": "./dist/src/index.js"
+  },
   "directories": {
     "doc": "docs",
     "dist": "dist",
@@ -38,9 +41,13 @@
   "dependencies": {
     "@degordian/standards": "^1.0.6",
     "@degordian/testing-toolkit": "^1.0.17",
-    "@types/node": "^9.4.6",
+    "@types/args": "^3.0.0",
+    "@types/command-line-args": "^4.0.2",
+    "@types/node": "^9.6.0",
+    "command-line-args": "^5.0.2",
+    "command-line-usage": "^5.0.4",
     "mocha-typescript": "^1.1.12",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.8.1"
   }
 }

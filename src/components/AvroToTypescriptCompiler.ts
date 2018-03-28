@@ -2,11 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import {BaseCompiler} from "../core/BaseCompiler";
 import {DirHelper} from "../helpers/DirHelper";
-import {FileHelper} from "../helpers/FileHelper";
 import {TypeHelper} from "../helpers/TypeHelper";
 import {AvroSchemaInterface, RecordType} from "../interfaces/AvroSchemaInterface";
 import {ExportModel} from "../models/ExportModel";
-import {AvroSchemaConverter} from "./avroToTypescript/AvroSchemaConverter";
 import {RecordConverter} from "./avroToTypescript/RecordConverter";
 
 export class AvroToTypescriptCompiler extends BaseCompiler {
@@ -25,7 +23,6 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
                 this.compileFile(file);
             });
         });
-
         return;
     }
 
