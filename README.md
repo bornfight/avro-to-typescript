@@ -2,13 +2,13 @@
 
 avro-to-typescript compiles avro schema files to typescript classes and interfaces.
 
-# Usage
+## Usage
 ```sh
 npm install -g avro-to-typescript
 
 avro-to-typescript --compile [ schema-directory ] [ output-directory ]
 ```
-# Features
+## Features
 
   - Compiles `record` type
   - Compiles `enum` type

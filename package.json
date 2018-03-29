@@ -43,6 +43,7 @@
     "@degordian/testing-toolkit": "^1.0.17",
     "@types/args": "^3.0.0",
     "@types/command-line-args": "^4.0.2",
+    "@types/command-line-usage": "^5.0.0",
     "@types/node": "^9.6.0",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.4",
