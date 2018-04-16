@@ -13,6 +13,8 @@ export abstract class BaseConverter implements ErrorHandlerInterface {
     public hasErrors: () => boolean;
     public errors: string[];
     public exports: ExportModel[] = [];
+    public enumExports: ExportModel[] = [];
+    public interfaceExports: ExportModel[] = [];
 
     public joinExports(): string {
         let result = this.exports

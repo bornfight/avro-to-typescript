@@ -17,12 +17,20 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
             this.addError(AvroToTypescriptCompiler.errorMessage.notCompileReady);
             throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
         }
-
-        fs.readdir(this.avroSchemaPath, (err, files) => {
-            files.forEach((file) => {
-                this.compileFile(file);
+        try {
+            fs.readdir(this.avroSchemaPath, async (err, files) => {
+                for (const file of files) {
+                    try {
+                        await this.compileFile(file);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
             });
-        });
+        } catch (err) {
+            console.log(err);
+        }
+
         return;
     }
 
@@ -43,6 +51,14 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         const result = recordConverter.joinExports();
 
         DirHelper.mkdirIfNotExist(outputDir);
+
+        for (const enumFile of recordConverter.enumExports) {
+            try {
+                await fs.writeFileSync(path.resolve(`${outputDir}/${enumFile.name}Enum.ts`), enumFile.content);
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
         fs.writeFileSync(path.resolve(`${outputDir}/${recordType.name}.ts`), result);
         console.log(`Wrote ${recordType.name}.ts in ${outputDir}`);

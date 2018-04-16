@@ -3,5 +3,5 @@ export interface User {
     username: string;
     passwordHash: string;
     signupDate: number;
-    unionType?: null | undefined | string;
+    unionType?: null | string;
 }

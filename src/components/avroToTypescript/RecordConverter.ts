@@ -64,6 +64,10 @@ export class RecordConverter extends BaseConverter {
         classRows.push(`}`);
         interfaceRows.push(`}`);
 
+        for (const enumFile of this.enumExports) {
+            importRows.push(`import {${enumFile.name}} from "./${enumFile.name}Enum.ts";`);
+        }
+
         importExportModel.name = "imports";
         importExportModel.content = importRows.join(SpecialCharacterHelper.NEW_LINE);
 
@@ -109,7 +113,7 @@ export class RecordConverter extends BaseConverter {
         if (TypeHelper.isEnumType(type)) {
             const enumConverter = new EnumConverter();
             const exportModel = enumConverter.convertType(type);
-            this.exports.push(exportModel);
+            this.enumExports.push(exportModel);
 
             return exportModel.name;
         }

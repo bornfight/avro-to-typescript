@@ -1,18 +1,12 @@
 import {BaseAvroRecord} from "../../BaseAvroRecord";
+import {OAuthStatus} from "./OAuthStatusEnum.ts";
+import {ToDoStatus} from "./ToDoStatusEnum.ts";
 
 export interface EmailAddress {
     address: string;
     verified: boolean;
     dateAdded: number;
-    dateBounced?: null | undefined | number;
-}
-
-export enum OAuthStatus {
-    PENDING,
-    ACTIVE,
-    DENIED,
-    EXPIRED,
-    REVOKED,
+    dateBounced?: null | number;
 }
 
 export interface TwitterAccount {
@@ -20,23 +14,15 @@ export interface TwitterAccount {
     userId: number;
     screenName: string;
     oauthToken: string;
-    oauthTokenSecret?: null | undefined | string;
+    oauthTokenSecret?: null | string;
     dateAuthorized: number;
-}
-
-export enum ToDoStatus {
-    HIDDEN,
-    ACTIONABLE,
-    DONE,
-    ARCHIVED,
-    DELETED,
 }
 
 export interface ToDoItem {
     status: ToDoStatus;
     title: string;
-    description?: null | undefined | string;
-    snoozeDate?: null | undefined | number;
+    description?: null | string;
+    snoozeDate?: null | number;
     subItems: any[];
 }
 

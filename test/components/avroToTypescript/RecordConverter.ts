@@ -16,7 +16,7 @@ const expect = chai.expect;
 chai.should();
 chai.use(sinonChai);
 
-const dataRoot = path.resolve(`${__dirname}/../../../../test/data`);
+const dataRoot = path.resolve(`${__dirname}/../../../test/data`);
 const avscFieldsDataRoot = `${dataRoot}/avscFieldsData`;
 const expectedTsTypesRoot = `${dataRoot}/expectedTsTypes`;
 const expectedTsClassesRoot = `${dataRoot}/expectedTsClasses`;
@@ -60,10 +60,10 @@ class TestingRecordConverter {
     }
 
     @test
-    private "should equal ./data/expectedTsTypes/testRecordWithEnum.ts when given testRecordWithEnum.json"() {
+    private "should equal ./data/expectedTsTypes/testRecordWithEnum.ts.test when given testRecordWithEnum.json"() {
         this.testRecordConverter(
             `${avscFieldsDataRoot}/testRecordWithEnum.json`,
-            `${expectedTsTypesRoot}/testRecordWithEnum.ts`,
+            `${expectedTsTypesRoot}/testRecordWithEnum.ts.test`,
         );
     }
 
@@ -84,10 +84,10 @@ class TestingRecordConverter {
     }
 
     @test
-    private "should eq ./data/expectedTsTypes/testRecordMapTypeInterfaceEnum.ts if given testRecordMapTypeInterfaceEnum.json"() {
+    private "should eq ./data/expectedTsTypes/testRecordMapTypeInterfaceEnum.ts.test if given testRecordMapTypeInterfaceEnum.json"() {
         this.testRecordConverter(
             `${avscFieldsDataRoot}/testRecordMapTypeInterfaceEnum.json`,
-            `${expectedTsTypesRoot}/testRecordMapTypeInterfaceEnum.ts`,
+            `${expectedTsTypesRoot}/testRecordMapTypeInterfaceEnum.ts.test`,
         );
     }
 
