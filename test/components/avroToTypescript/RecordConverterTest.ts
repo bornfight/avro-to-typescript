@@ -16,7 +16,7 @@ const expect = chai.expect;
 chai.should();
 chai.use(sinonChai);
 
-const dataRoot = path.resolve(`${__dirname}/../../../test/data`);
+const dataRoot = path.resolve(`${__dirname}/../../../../test/data`);
 const avscFieldsDataRoot = `${dataRoot}/avscFieldsData`;
 const expectedTsTypesRoot = `${dataRoot}/expectedTsTypes`;
 const expectedTsClassesRoot = `${dataRoot}/expectedTsClasses`;
