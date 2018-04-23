@@ -20,7 +20,7 @@ export class RecordConverter extends BaseConverter {
 
         importRows.push(`import {BaseAvroRecord} from "../../BaseAvroRecord";`);
 
-        classRows.push(`export class ${recordType.name} implements ${recordType.name}Interface {`);
+        classRows.push(`export class ${recordType.name} extends BaseAvroRecord implements ${recordType.name}Interface {`);
         interfaceRows.push(`export interface ${recordType.name}${interfacePostFix} {`);
 
         classRows.push(``);

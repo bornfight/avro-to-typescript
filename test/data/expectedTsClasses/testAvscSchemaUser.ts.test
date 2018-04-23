@@ -36,7 +36,7 @@ export interface UserInterface {
     toDoItems: ToDoItem[];
 }
 
-export class User implements UserInterface {
+export class User extends BaseAvroRecord implements UserInterface {
 
     public static readonly subject: string = "User";
     public static readonly schema: object = {

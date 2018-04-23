@@ -75,7 +75,7 @@ if (options.compile) {
         const compiler: AvroToTypescriptCompiler = new AvroToTypescriptCompiler();
         compiler.avroSchemaPath = schemaDir;
         compiler.tsSchemaPath = dist;
-        compiler.compile();
+        compiler.compileFolder();
 } else {
     console.log(usage);
 }

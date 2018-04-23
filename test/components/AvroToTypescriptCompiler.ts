@@ -36,7 +36,7 @@ describe("Testing AvroToTypescriptCompiler", () => {
         const mainCompiled = new AvroToTypescriptCompiler();
         mainCompiled.tsSchemaPath = tsCompiledPath;
         mainCompiled.avroSchemaPath = avscPath;
-        await mainCompiled.compile();
+        await mainCompiled.compileFolder();
 
         const tsCompiledContent: string = fs.readFileSync(tsCompiledPath).toString();
         const tsExpectedContent: string = fs.readFileSync(tsExpectedPath).toString();

@@ -6,7 +6,7 @@ avro-to-typescript compiles avro schema files to typescript classes and interfac
 ```sh
 npm install -g avro-to-typescript
 
-avro-to-typescript --compile [ schema-directory ] [ output-directory ]
+avro-to-typescript --compileFolder [ schema-directory ] [ output-directory ]
 ```
 ## Features
 
