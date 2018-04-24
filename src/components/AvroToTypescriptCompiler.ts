@@ -4,6 +4,7 @@ import {BaseCompiler} from "../core/BaseCompiler";
 import {DirHelper} from "../helpers/DirHelper";
 import {TypeHelper} from "../helpers/TypeHelper";
 import {AvroSchemaInterface, RecordType} from "../interfaces/AvroSchemaInterface";
+import { CompilerOutputInterface } from "../interfaces/CompilerOutputInterface";
 import {ExportModel} from "../models/ExportModel";
 import {RecordConverter} from "./avroToTypescript/RecordConverter";
 
@@ -30,7 +31,7 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         return;
     }
 
-    public async compile(data: any): Promise<object> {
+    public async compile(data: any): Promise<CompilerOutputInterface> {
         const recordConverter = new RecordConverter();
         const recordType: RecordType = data;
 
@@ -55,9 +56,11 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
 
         console.log(`Wrote ${recordType.name}.ts in ${outputDir}`);
 
-        return {
+        const output: CompilerOutputInterface = {
             class: recordType.name,
             dir: outputDir,
         };
+
+        return output;
     }
 }
