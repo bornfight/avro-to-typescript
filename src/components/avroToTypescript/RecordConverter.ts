@@ -80,7 +80,7 @@ export class RecordConverter extends BaseConverter {
         this.exports.push(interfaceExportModel);
         this.exports.push(classExportModel);
 
-        this.exports.splice(0, 0, importExportModel);
+        this.exports = [importExportModel, ...this.exports];
 
         return classExportModel;
     }
