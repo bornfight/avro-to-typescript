@@ -1,11 +1,12 @@
 import {
     ArrayType,
     AvroSchemaInterface,
-    EnumType,
+    EnumType, Field,
     MapType,
     NamedType,
     RecordType,
-    Type} from "../interfaces/AvroSchemaInterface";
+    Type,
+} from "../interfaces/AvroSchemaInterface";
 
 export class TypeHelper {
 
@@ -51,5 +52,25 @@ export class TypeHelper {
         }
 
         return false;
+    }
+
+    public static hasDefault(field: Field): boolean {
+        if (field.default === undefined) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static getDefault(field: Field): string | number | boolean | any[] | null {
+        if (field.default === "") {
+            return `""`;
+        }
+
+        if (Array.isArray(field.default) && field.default.length === 0) {
+            return `[]`;
+        }
+
+        return field.default;
     }
 }

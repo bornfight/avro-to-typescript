@@ -1,3 +1,4 @@
+// tslint:disable
 import {BaseAvroRecord} from "../../BaseAvroRecord";
 import {OAuthStatus} from "./OAuthStatusEnum.ts";
 import {ToDoStatus} from "./ToDoStatusEnum.ts";

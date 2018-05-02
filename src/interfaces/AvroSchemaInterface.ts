@@ -9,7 +9,7 @@ export type TypeNames = "record" | "array" | "null" | "map" | string;
 export interface Field {
     name: string;
     type: Type;
-    default?: string | number | null | boolean;
+    default?: string | number | null | boolean | any[];
 }
 
 export interface RecordType extends AvroSchemaInterface {

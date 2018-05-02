@@ -52,6 +52,14 @@ class TestingRecordConverter {
     }
 
     @test
+    private "should equal ./data/expectedTsClasses/testAvscSchemaTradeCollection when given testAvscSchemaTradeCollection.avsc"() {
+        this.testRecordClassConverter(
+            `${avscFieldsDataRoot}/testAvscSchemaTradeCollection.avsc`,
+            `${expectedTsClassesRoot}/testAvscSchemaTradeCollection.ts.test`,
+        );
+    }
+
+    @test
     private "should equal ./data/expectedTsTypes/testRecordSimple.ts when given testRecordSimple.json"() {
         this.testRecordConverter(
             `${avscFieldsDataRoot}/testRecordSimple.json`,

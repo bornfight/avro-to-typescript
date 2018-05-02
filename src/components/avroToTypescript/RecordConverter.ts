@@ -43,8 +43,9 @@ export class RecordConverter extends BaseConverter {
 
         recordType.fields.forEach((field: Field) => {
             const fieldType = `${this.getField(field)}`;
-            const interfaceRow = `${SpecialCharacterHelper.TAB}${fieldType}`;
-            const classRow = `${SpecialCharacterHelper.TAB}public ${fieldType}`;
+            const interfaceRow = `${SpecialCharacterHelper.TAB}${fieldType};`;
+            const classRow = `${SpecialCharacterHelper.TAB}public ${fieldType}` +
+                                `${TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "" };`;
 
             interfaceRows.push(interfaceRow);
             classRows.push(classRow);
@@ -92,7 +93,7 @@ export class RecordConverter extends BaseConverter {
 
         rows.push(`export interface ${recordType.name} {`);
         recordType.fields.forEach((field: Field) => {
-            const fieldType = `${this.getField(field)}`;
+            const fieldType = `${this.getField(field)};`;
             rows.push(`${SpecialCharacterHelper.TAB}${fieldType}`);
         });
         rows.push(`}`);
@@ -142,7 +143,7 @@ export class RecordConverter extends BaseConverter {
     }
 
     public getField(field: Field): string {
-        return `${field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)};`;
+        return `${field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)}`;
     }
 
     public getFieldType(field: Field): string {

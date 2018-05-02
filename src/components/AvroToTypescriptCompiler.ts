@@ -31,6 +31,10 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         return;
     }
 
+    /**
+     * @param data - expects data to be JSON parsed
+     * @returns {Promise<CompilerOutputInterface>}
+     */
     public async compile(data: any): Promise<CompilerOutputInterface> {
         const recordConverter = new RecordConverter();
         const recordType: RecordType = data;
@@ -56,11 +60,9 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
 
         console.log(`Wrote ${recordType.name}.ts in ${outputDir}`);
 
-        const output: CompilerOutputInterface = {
+        return {
             class: recordType.name,
             dir: outputDir,
         };
-
-        return output;
     }
 }
