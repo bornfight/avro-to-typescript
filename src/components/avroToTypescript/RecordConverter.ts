@@ -18,6 +18,7 @@ export class RecordConverter extends BaseConverter {
         const interfacePostFix = "Interface";
         const TAB = SpecialCharacterHelper.TAB;
 
+        importRows.push(`// tslint:disable`);
         importRows.push(`import {BaseAvroRecord} from "../../BaseAvroRecord";`);
 
         classRows.push(`export class ${recordType.name} extends BaseAvroRecord implements ${recordType.name}Interface {`);
