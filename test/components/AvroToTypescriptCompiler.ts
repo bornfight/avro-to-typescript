@@ -37,7 +37,7 @@ describe("Testing AvroToTypescriptCompiler", () => {
         mainCompiled.tsSchemaPath = tsCompiledPath;
         mainCompiled.avroSchemaPath = avscPath;
 
-        const data = fs.readFileSync(avscPath).toString()
+        const data = fs.readFileSync(avscPath).toString();
 
         const info = await mainCompiled.compile(JSON.parse(data));
 

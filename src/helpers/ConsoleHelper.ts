@@ -17,5 +17,5 @@ export class ConsoleHelper {
         process.exit();
     }
 
-    protected static _usage = "Check --help";;
+    protected static _usage = "Check --help";
 }

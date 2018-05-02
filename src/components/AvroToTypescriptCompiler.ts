@@ -53,7 +53,7 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         DirHelper.mkdirIfNotExist(outputDir);
 
         for (const enumFile of recordConverter.enumExports) {
-            await fs.writeFileSync(path.resolve(`${outputDir}/${enumFile.name}Enum.ts`), enumFile.content);
+            fs.writeFileSync(path.resolve(`${outputDir}/${enumFile.name}Enum.ts`), enumFile.content);
         }
 
         fs.writeFileSync(path.resolve(`${outputDir}/${recordType.name}.ts`), result);

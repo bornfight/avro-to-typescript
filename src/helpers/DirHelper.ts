@@ -5,7 +5,7 @@ export class DirHelper {
     public static mkdirIfNotExist(dir: string) {
         if (!this.exists(dir)) {
             console.log("Directory doesn't exist, creating it...");
-            dir
+            return dir
                 .split(path.sep)
                 .reduce((currentPath, folder) => {
                     currentPath += folder + path.sep;
