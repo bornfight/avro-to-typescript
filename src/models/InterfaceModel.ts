@@ -24,8 +24,8 @@ export class InterfaceModel {
         const propertyTypesRegex = new RegExp( /([a-zA-Z]+);/, "gs");
 
         const propertiesPart = content.match( propertiesRegex );
-        const propertyNames: string[] = content.match( propertyNamesRegex );
-        const propertyTypes: string[] = content.match( propertyTypesRegex );
+        const propertyNames: RegExpMatchArray | null  = content.match( propertyNamesRegex );
+        const propertyTypes: RegExpMatchArray | null = content.match( propertyTypesRegex );
         console.log("PropertyPart", propertiesPart);
         console.log("PropertyNames", propertyNames);
         console.log("PropertyTypes", propertyTypes);
