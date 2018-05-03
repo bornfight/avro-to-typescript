@@ -1,40 +1,70 @@
+import * as fs from "fs";
+import * as path from "path";
 import {BaseCompiler} from "../core/BaseCompiler";
-import {FileHelper} from "../helpers/FileHelper";
+import {DirHelper} from "../helpers/DirHelper";
 import {TypeHelper} from "../helpers/TypeHelper";
-import {AvroSchemaInterface} from "../interfaces/AvroSchemaInterface";
-import {AvroSchemaConverter} from "./avroToTypescript/AvroSchemaConverter";
+import {AvroSchemaInterface, RecordType} from "../interfaces/AvroSchemaInterface";
+import { CompilerOutputInterface } from "../interfaces/CompilerOutputInterface";
+import {ExportModel} from "../models/ExportModel";
+import {RecordConverter} from "./avroToTypescript/RecordConverter";
 
 export class AvroToTypescriptCompiler extends BaseCompiler {
     public tsSchemaContent: string;
+    public exports: ExportModel[];
 
-    public async compile(): Promise<void> {
+    public async compileFolder(): Promise<void> {
+        try {
+            fs.readdir(this.avroSchemaPath, async (err, files) => {
+                for (const file of files) {
+                    await this.compileFile(file);
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
-        if (this.isCompileReady() === false) {
-            this.addError(AvroToTypescriptCompiler.errorMessage.notCompileReady);
-            throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
+    public async compileFile(file: any) {
+        const data = fs.readFileSync(this.avroSchemaPath + "/" + file).toString();
+
+        await this.compile(JSON.parse(data));
+    }
+
+    /**
+     * @param data - expects data to be JSON parsed
+     * @returns {Promise<CompilerOutputInterface>}
+     */
+    public async compile(data: any): Promise<CompilerOutputInterface> {
+        const recordConverter = new RecordConverter();
+        const recordType: RecordType = data;
+
+        const namespace = recordType.namespace.replace(".", "/");
+        const outputDir = this.tsSchemaPath + namespace;
+
+        if (TypeHelper.isRecordType(recordType)) {
+            recordConverter.convertRecordToClass(recordType);
+        } else {
+            recordConverter.convertType(recordType);
         }
 
-        const schemaConverter = new AvroSchemaConverter();
-        const schemaFileHelper = new FileHelper(this.avroSchemaPath);
-        const tsFileHelper = new FileHelper(this.tsSchemaPath);
-        const schemaFileContent: string = (await schemaFileHelper.getContent()).toString();
+        const result = recordConverter.joinExports();
 
-        const schemaContent: AvroSchemaInterface = JSON.parse(schemaFileContent) as AvroSchemaInterface;
+        DirHelper.mkdirIfNotExist(outputDir);
 
-        if (TypeHelper.isRecordType(schemaContent) === false) {
-            this.addError("Avro schema is not record type");
+        for (const enumFile of recordConverter.enumExports) {
+            const basePath = `${outputDir}/${enumFile.name}Enum.ts`;
+            const fullPath = path.resolve(basePath);
+
+            fs.writeFileSync(fullPath, enumFile.content);
         }
 
-        if (this.isCompileReady() === false) {
-            throw new Error(AvroToTypescriptCompiler.errorMessage.notCompileReady);
-        }
+        fs.writeFileSync(path.resolve(`${outputDir}/${recordType.name}.ts`), result);
 
-        const tsSchemaContent = await schemaConverter.convert(schemaContent);
-        await tsFileHelper.create();
-        await tsFileHelper.save( tsSchemaContent );
+        console.log(`Wrote ${recordType.name}.ts in ${outputDir}`);
 
-        this.tsSchemaContent = tsSchemaContent;
-
-        return;
+        return {
+            class: recordType.name,
+            dir: outputDir,
+        };
     }
 }

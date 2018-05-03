@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import ErrnoException = NodeJS.ErrnoException;
+import * as path from "path";
 
 export class FileHelper {
     public filePath: string;
@@ -9,7 +10,7 @@ export class FileHelper {
     }
 
     public getContent(): Promise<string | Buffer> {
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (this.exists() === false) {
                 reject(`File not found: ${this.filePath}`);
                 return;
@@ -22,7 +23,7 @@ export class FileHelper {
                     return;
                 }
 
-                resolve( content );
+                resolve(content);
             });
         });
     }
@@ -34,7 +35,7 @@ export class FileHelper {
                 return;
             }
 
-            fs.writeFileSync( this.filePath, content );
+            fs.writeFileSync(this.filePath, content);
             resolve(true);
         });
     }
@@ -43,7 +44,7 @@ export class FileHelper {
         return fs.existsSync(this.filePath);
     }
 
-    public async create(): Promise <void> {
+    public async create(): Promise<void> {
         if (this.exists() === true) {
             return;
         }

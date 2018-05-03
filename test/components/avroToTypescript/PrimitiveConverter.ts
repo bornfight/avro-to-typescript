@@ -19,7 +19,7 @@ describe("Compile primitive types", () => {
         Buffer: [
             "bytes",
         ],
-        "null | undefined": [
+        null: [
             "null",
         ],
         boolean: [

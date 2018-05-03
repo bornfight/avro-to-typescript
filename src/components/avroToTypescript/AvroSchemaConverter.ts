@@ -4,6 +4,7 @@ import {AvroSchemaInterface} from "../../interfaces/AvroSchemaInterface";
 import {RecordConverter} from "./RecordConverter";
 
 export class AvroSchemaConverter extends BaseConverter {
+
     public async convert(avroSchema: AvroSchemaInterface): Promise<string> {
         let content: string = "";
         const recordConverter = new RecordConverter();
@@ -17,6 +18,8 @@ export class AvroSchemaConverter extends BaseConverter {
             recordConverter.convertType(avroSchema);
             content = recordConverter.joinExports();
         }
+
+        this.exports = recordConverter.exports;
 
         return content;
     }

@@ -14,7 +14,7 @@ export class PrimitiveConverter extends BaseConverter {
             case "bytes":
                 return "Buffer";
             case "null":
-                return "null | undefined";
+                return "null";
             case "boolean":
                 return "boolean";
             default:

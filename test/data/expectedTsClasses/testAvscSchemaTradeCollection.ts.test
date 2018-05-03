@@ -1,0 +1,137 @@
+// tslint:disable
+import {BaseAvroRecord} from "../../BaseAvroRecord";
+import {TradeType} from "./TradeTypeEnum.ts";
+import {TradeDirection} from "./TradeDirectionEnum.ts";
+
+export interface Trade {
+    id: string;
+    price: number;
+    amount: number;
+    datetime: string;
+    timestamp: number;
+    type?: null | TradeType;
+    side?: null | TradeDirection;
+}
+
+export interface TradeCollectionInterface {
+    producerId: string;
+    exchange: string;
+    market: string;
+    trades: Trade[];
+}
+
+export class TradeCollection extends BaseAvroRecord implements TradeCollectionInterface {
+
+    public static readonly subject: string = "TradeCollection";
+    public static readonly schema: object = {
+    "type": "record",
+    "name": "TradeCollection",
+    "namespace": "dapp.kolektorka",
+    "fields": [
+        {
+            "name": "producerId",
+            "type": "string",
+            "default": ""
+        },
+        {
+            "name": "exchange",
+            "type": "string",
+            "default": ""
+        },
+        {
+            "name": "market",
+            "type": "string",
+            "default": ""
+        },
+        {
+            "name": "trades",
+            "type": {
+                "type": "array",
+                "items": {
+                    "type": "record",
+                    "name": "Trade",
+                    "fields": [
+                        {
+                            "name": "id",
+                            "type": "string",
+                            "default": ""
+                        },
+                        {
+                            "name": "price",
+                            "type": "double",
+                            "default": 0
+                        },
+                        {
+                            "name": "amount",
+                            "type": "double",
+                            "default": 0
+                        },
+                        {
+                            "name": "datetime",
+                            "type": "string",
+                            "default": ""
+                        },
+                        {
+                            "name": "timestamp",
+                            "type": "long",
+                            "default": 0
+                        },
+                        {
+                            "name": "type",
+                            "type": [
+                                "null",
+                                {
+                                    "type": "enum",
+                                    "name": "TradeType",
+                                    "symbols": [
+                                        "Market",
+                                        "Limit"
+                                    ]
+                                }
+                            ],
+                            "default": null
+                        },
+                        {
+                            "name": "side",
+                            "type": [
+                                "null",
+                                {
+                                    "type": "enum",
+                                    "name": "TradeDirection",
+                                    "symbols": [
+                                        "Buy",
+                                        "Sell"
+                                    ]
+                                }
+                            ],
+                            "default": null
+                        }
+                    ]
+                }
+            },
+            "default": []
+        }
+    ]
+}
+
+    public static deserialize(buffer: Buffer, newSchema?: object): TradeCollection {
+        const result = new TradeCollection();
+        const rawResult = this.internalDeserialize(buffer, newSchema);
+        result.loadValuesFromType(rawResult);
+
+        return result;
+    }
+
+    public producerId: string = "";
+    public exchange: string = "";
+    public market: string = "";
+    public trades: Trade[] = [];
+
+    public schema(): object {
+        return TradeCollection.schema;
+    }
+
+    public subject(): string {
+        return TradeCollection.subject;
+    }
+}

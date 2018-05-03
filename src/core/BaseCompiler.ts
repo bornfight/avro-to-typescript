@@ -33,7 +33,7 @@ export abstract class BaseCompiler implements ErrorHandlerInterface {
     private _avroSchemaPath: string;
     private _tsSchemaPath: string;
 
-    public abstract compile(): Promise<void>;
+    public abstract compile(data: string): Promise<object>;
 
     protected isCompileReady(): boolean {
         if (this.avroSchemaPath === undefined) {

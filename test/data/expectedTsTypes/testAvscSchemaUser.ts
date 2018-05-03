@@ -35,7 +35,7 @@ export interface ToDoItem {
     title: string;
     description?: null | undefined | string;
     snoozeDate?: null | undefined | number;
-    subItems: ToDoItem[];
+    subItems: any[];
 }
 
 export interface User {

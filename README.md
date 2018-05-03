@@ -1,25 +1,35 @@
 # avro-to-typescript [![Build Status](https://travis-ci.org/degordian/avro-to-typescript.svg?branch=master)](https://travis-ci.org/degordian/avro-to-typescript)
 
-Modules is used to compile avro schemas to typescript interfaces.
+avro-to-typescript compiles avro schema files to typescript classes and interfaces.
 
-# Usage
+Take note that you need **BaseAvroRecord** class in the output directory.
+
+## Usage
 ```sh
-npm install avro-to-typescript
+npm install -g @degordian/avro-to-typescript
+
+avro-to-typescript --compile [ schema-directory ] [ output-directory ]
 ```
-```Typescript
-import {AvroToTypescriptCompiler} from "@degordian/avro-to-typescript";
-const avroToTypescriptCompiler = new AvroToTypescriptCompiler();
-const avroPath = path.resolve( __dirname, `./avscData`);
-const tsCompiledPath = path.resolve( __dirname, `./tsCompiled`);
 
-avroToTypescriptCompiler.tsSchemaPath = path.resolve( tsCompiledPath, `user.ts`);
-avroToTypescriptCompiler.avroSchemaPath = path.resolve( avroPath, `user.avsc`);
+```
+npm install @degordian/avro-to-typescript @dapp/avro-schemas
 
-avroToTypescriptCompiler.compile().catch( (error: string) => {
-    console.log("Error:", error);
+----
+
+const compiler = new AvroToTypescriptCompiler();
+const avroSchema = JSON.parse(data);
+
+compiler.compile(avroSchema).then((info: any) => {
+    fs.writeFileSync(
+        `${avroClassDirectory}/BaseAvroRecord.ts`,
+        "export { BaseAvroRecord } from \"@dapp/avro-schemas\";\n",
+    );
+}).catch((err: any) => {
+    console.log(err);
 });
 ```
-# Features
+
+## Features
 
   - Compiles `record` type
   - Compiles `enum` type

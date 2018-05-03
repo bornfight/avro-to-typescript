@@ -1,5 +1,5 @@
 import * as chai from "chai";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import * as path from "path";
 import sinonChai = require("sinon-chai");
 import {AvroToTypescriptCompiler} from "../../src/components/AvroToTypescriptCompiler";
@@ -36,12 +36,18 @@ describe("Testing AvroToTypescriptCompiler", () => {
         const mainCompiled = new AvroToTypescriptCompiler();
         mainCompiled.tsSchemaPath = tsCompiledPath;
         mainCompiled.avroSchemaPath = avscPath;
-        await mainCompiled.compile();
+
+        const data = fs.readFileSync(avscPath).toString();
+
+        const info = await mainCompiled.compile(JSON.parse(data));
 
         const tsCompiledContent: string = fs.readFileSync(tsCompiledPath).toString();
         const tsExpectedContent: string = fs.readFileSync(tsExpectedPath).toString();
 
         expect(tsCompiledContent).equal(tsExpectedContent);
+
+        fs.removeSync(info.dir + "/../");
+
         return;
     }
 

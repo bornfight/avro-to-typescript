@@ -8,13 +8,94 @@ import {PrimitiveConverter} from "./PrimitiveConverter";
 
 export class RecordConverter extends BaseConverter {
 
+    public convertRecordToClass( recordType: RecordType ): ExportModel {
+        const classRows: string[] = [];
+        const interfaceRows: string[] = [];
+        const importRows: string[] = [];
+        const importExportModel: ExportModel = new ExportModel();
+        const classExportModel: ExportModel = new ExportModel();
+        const interfaceExportModel: ExportModel = new ExportModel();
+        const interfacePostFix = "Interface";
+        const TAB = SpecialCharacterHelper.TAB;
+
+        importRows.push(`// tslint:disable`);
+        importRows.push(`import {BaseAvroRecord} from "../../BaseAvroRecord";`);
+
+        classRows.push(`export class ${recordType.name} extends BaseAvroRecord implements ${recordType.name}Interface {`);
+        interfaceRows.push(`export interface ${recordType.name}${interfacePostFix} {`);
+
+        classRows.push(``);
+
+        classRows.push(`${TAB}public static readonly subject: string = "${recordType.name}";`);
+        classRows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(recordType, null, 4)}`);
+
+        classRows.push(``);
+
+        classRows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${recordType.name} {`);
+        classRows.push(`${TAB}${TAB}const result = new ${recordType.name}();`);
+        classRows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema);`);
+        classRows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
+        classRows.push(``);
+        classRows.push(`${TAB}${TAB}return result;`);
+        classRows.push(`${TAB}}`);
+
+        classRows.push(``);
+
+        recordType.fields.forEach((field: Field) => {
+            const fieldType = `${this.getField(field)}`;
+            const interfaceRow = `${TAB}${fieldType};`;
+
+            const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
+            const classRow = `${TAB}public ${fieldType}${defaultValue};`;
+
+            interfaceRows.push(interfaceRow);
+            classRows.push(classRow);
+        });
+
+        classRows.push(``);
+
+        classRows.push(`${TAB}public schema(): object {`);
+        classRows.push(`${TAB}${TAB}return ${recordType.name}.schema;`);
+        classRows.push(`${TAB}}`);
+
+        classRows.push(``);
+
+        classRows.push(`${TAB}public subject(): string {`);
+        classRows.push(`${TAB}${TAB}return ${recordType.name}.subject;`);
+        classRows.push(`${TAB}}`);
+
+        classRows.push(`}`);
+        interfaceRows.push(`}`);
+
+        for (const enumFile of this.enumExports) {
+            importRows.push(`import {${enumFile.name}} from "./${enumFile.name}Enum.ts";`);
+        }
+
+        importExportModel.name = "imports";
+        importExportModel.content = importRows.join(SpecialCharacterHelper.NEW_LINE);
+
+        classExportModel.name = recordType.name;
+        classExportModel.content = classRows.join(SpecialCharacterHelper.NEW_LINE);
+
+        interfaceExportModel.name = recordType.name + interfacePostFix;
+        interfaceExportModel.content = interfaceRows.join(SpecialCharacterHelper.NEW_LINE);
+
+        this.exports.push(interfaceExportModel);
+        this.exports.push(classExportModel);
+
+        this.exports = [importExportModel, ...this.exports];
+
+        return classExportModel;
+    }
+
     public convertRecord( recordType: RecordType ): ExportModel {
         const rows: string[] = [];
         const exportModel: ExportModel = new ExportModel();
 
         rows.push(`export interface ${recordType.name} {`);
         recordType.fields.forEach((field: Field) => {
-            rows.push(`${SpecialCharacterHelper.TAB}${this.getFieldType(field)}`);
+            const fieldType = `${this.getField(field)};`;
+            rows.push(`${SpecialCharacterHelper.TAB}${fieldType}`);
         });
         rows.push(`}`);
 
@@ -35,7 +116,7 @@ export class RecordConverter extends BaseConverter {
         if (TypeHelper.isEnumType(type)) {
             const enumConverter = new EnumConverter();
             const exportModel = enumConverter.convertType(type);
-            this.exports.push(exportModel);
+            this.enumExports.push(exportModel);
 
             return exportModel.name;
         }
@@ -62,8 +143,11 @@ export class RecordConverter extends BaseConverter {
         return "any";
     }
 
-    public getFieldType(field: Field): string {
+    public getField(field: Field): string {
+        return `${field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)}`;
+    }
 
-        return `${field.name}${TypeHelper.isOptional(field.type) ? "?" : ""}: ${this.convertType(field.type)};`;
+    public getFieldType(field: Field): string {
+        return `${this.convertType(field.type)}`;
     }
 }
