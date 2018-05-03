@@ -17,5 +17,13 @@ export class ConsoleHelper {
         process.exit();
     }
 
+    public static validCompileArgs(options: any): boolean {
+        if (options.compile[0] === undefined || options.compile[1] === undefined) {
+            ConsoleHelper.break("Invalid parameters");
+        }
+
+        return true;
+    }
+
     protected static _usage = "Check --help";
 }

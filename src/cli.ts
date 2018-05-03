@@ -37,39 +37,34 @@ const usageOptions = [
         content: "Project home: {underline https://github.com/degordian/avro-to-typescript}",
     },
 ];
+
+let options;
+let usage;
+
 try {
-    args(cmdOptions);
+    options = args(cmdOptions);
+    usage = cmdusage(usageOptions);
 } catch (e) {
     ConsoleHelper.break("Invalid value or option used");
 }
 
-const options = args(cmdOptions);
-const usage = cmdusage(usageOptions);
+if (!options.compile) {
+    ConsoleHelper.break("Options could not be compiled");
+}
 
-if (options.compile) {
-        let src: string = options.compile[0];
+if (ConsoleHelper.validCompileArgs(options)) {
+    const src: string = path.resolve(options.compile[0]);
 
-        if (src === undefined && fs.existsSync(src)) {
-            ConsoleHelper.break("No source directory");
-        }
-        if (!src.endsWith("/")) {
-            src += "/";
-        }
+    if (fs.existsSync(src)) {
+        ConsoleHelper.break("The directory does not exist or is invalid");
+    }
 
-        let dist: string = options.compile[1];
-        if (dist === undefined) {
-            ConsoleHelper.break("No output directory");
-        }
-        if (!dist.endsWith("/")) {
-            dist += "/";
-        }
+    const dist: string = path.resolve(options.compile[1]);
 
-        const schemaDir: string = path.resolve(src);
+    const schemaDir: string = path.resolve(src);
 
-        const compiler: AvroToTypescriptCompiler = new AvroToTypescriptCompiler();
-        compiler.avroSchemaPath = schemaDir;
-        compiler.tsSchemaPath = dist;
-        compiler.compileFolder();
-} else {
-    console.log(usage);
+    const compiler: AvroToTypescriptCompiler = new AvroToTypescriptCompiler();
+    compiler.avroSchemaPath = schemaDir;
+    compiler.tsSchemaPath = dist;
+    compiler.compileFolder();
 }
