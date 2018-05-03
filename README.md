@@ -6,13 +6,13 @@ Take note that you need **BaseAvroRecord** class in the output directory.
 
 ## Usage
 ```sh
-npm install -g avro-to-typescript
+npm install -g @degordian/avro-to-typescript
 
 avro-to-typescript --compile [ schema-directory ] [ output-directory ]
 ```
 
 ```
-npm install avro-to-typescript @dapp/avro-schemas
+npm install @degordian/avro-to-typescript @dapp/avro-schemas
 
 ----
 
