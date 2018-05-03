@@ -43,9 +43,10 @@ export class RecordConverter extends BaseConverter {
 
         recordType.fields.forEach((field: Field) => {
             const fieldType = `${this.getField(field)}`;
-            const interfaceRow = `${SpecialCharacterHelper.TAB}${fieldType};`;
-            const classRow = `${SpecialCharacterHelper.TAB}public ${fieldType}` +
-                                `${TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "" };`;
+            const interfaceRow = `${TAB}${fieldType};`;
+
+            const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
+            const classRow = `${TAB}public ${fieldType}${defaultValue};`;
 
             interfaceRows.push(interfaceRow);
             classRows.push(classRow);

@@ -16,19 +16,18 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         try {
             fs.readdir(this.avroSchemaPath, async (err, files) => {
                 for (const file of files) {
-                    try {
-                        const data = fs.readFileSync(this.avroSchemaPath + "/" + file).toString();
-                        await this.compile(JSON.parse(data));
-                    } catch (err) {
-                        console.log(err);
-                    }
+                    await this.compileFile(file);
                 }
             });
         } catch (err) {
             console.log(err);
         }
+    }
 
-        return;
+    public async compileFile(file: any) {
+        const data = fs.readFileSync(this.avroSchemaPath + "/" + file).toString();
+
+        await this.compile(JSON.parse(data));
     }
 
     /**
@@ -53,7 +52,10 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         DirHelper.mkdirIfNotExist(outputDir);
 
         for (const enumFile of recordConverter.enumExports) {
-            fs.writeFileSync(path.resolve(`${outputDir}/${enumFile.name}Enum.ts`), enumFile.content);
+            const basePath = `${outputDir}/${enumFile.name}Enum.ts`;
+            const fullPath = path.resolve(basePath);
+
+            fs.writeFileSync(fullPath, enumFile.content);
         }
 
         fs.writeFileSync(path.resolve(`${outputDir}/${recordType.name}.ts`), result);
