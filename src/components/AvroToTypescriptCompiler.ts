@@ -39,7 +39,7 @@ export class AvroToTypescriptCompiler extends BaseCompiler {
         const recordType: RecordType = data;
 
         const namespace = recordType.namespace.replace(".", "/");
-        const outputDir = this.tsSchemaPath + namespace;
+        const outputDir = `${this.tsSchemaPath}/${namespace}`;
 
         if (TypeHelper.isRecordType(recordType)) {
             recordConverter.convertRecordToClass(recordType);

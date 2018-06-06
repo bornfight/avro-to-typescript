@@ -1,6 +1,6 @@
 {
   "name": "@degordian/avro-to-typescript",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Modules is used to compile avro schemas to typescript interfaces.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",

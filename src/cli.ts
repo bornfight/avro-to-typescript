@@ -53,9 +53,11 @@ if (!options.compile) {
 }
 
 if (ConsoleHelper.validCompileArgs(options)) {
+    console.log(options);
+
     const src: string = path.resolve(options.compile[0]);
 
-    if (fs.existsSync(src)) {
+    if (!fs.existsSync(src)) {
         ConsoleHelper.break("The directory does not exist or is invalid");
     }
 
