@@ -26,7 +26,7 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
     public static readonly schema: object = {
     "type": "record",
     "name": "TradeCollection",
-    "namespace": "dapp.kolektorka",
+    "namespace": "com.example.avro",
     "fields": [
         {
             "name": "producerId",
