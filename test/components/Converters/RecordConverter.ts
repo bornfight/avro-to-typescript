@@ -1,13 +1,11 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import sinonChai = require("sinon-chai");
-import { RecordConverter } from "../../src";
+import { RecordConverter } from "../../../src";
 
 const expect = chai.expect;
 
 chai.should();
-chai.use(sinonChai);
 
 const dataFolder = path.resolve(`./test/data/`);
 const avroFolder = path.resolve(dataFolder + `/avro/`);
@@ -17,7 +15,7 @@ const getExpectedResult = (file: string) => {
     return fs.readFileSync(file).toString();
 };
 
-describe("Record Converter test", () => {
+describe("RecordType Converter test", () => {
     it("should convert simple avro schema to TS interface", () => {
         const converter = new RecordConverter();
         converter.convert(`${avroFolder}/SimpleRecord.avsc`);
@@ -46,7 +44,7 @@ describe("Record Converter test", () => {
         expect(actual).to.deep.equal(expected);
     });
 
-    it("should convert avro schema with Map type to TS interface", () => {
+    it("should convert avro schema with MapType type to TS interface", () => {
         const converter = new RecordConverter();
         converter.convert(`${avroFolder}/RecordWithMap.avsc`);
 
@@ -64,7 +62,7 @@ describe("Record Converter test", () => {
         expect(actual).to.deep.equal(expected);
     });
 
-    it("should convert avro schema with Map type to TS interface", () => {
+    it("should convert avro schema with MapType type to TS interface", () => {
         const converter = new RecordConverter();
         converter.convert(`${avroFolder}/ComplexRecord.avsc`);
 

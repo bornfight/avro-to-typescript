@@ -1,14 +1,11 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import { EnumConverter } from "../../src";
-
-import sinonChai = require("sinon-chai");
+import { EnumConverter } from "../../../src";
 
 const expect = chai.expect;
 
 chai.should();
-chai.use(sinonChai);
 
 const dataFolder = path.resolve(`./test/data/`);
 const avroFolder = path.resolve(dataFolder + `/avro/`);
