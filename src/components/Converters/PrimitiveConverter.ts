@@ -1,8 +1,8 @@
-import {BaseConverter} from "../../core/BaseConverter";
+import { BaseConverter } from "./base/BaseConverter";
 
 export class PrimitiveConverter extends BaseConverter {
 
-    public convertType(type: string): string {
+    public convert(type: string): string {
         switch (type) {
             case "long":
             case "int":

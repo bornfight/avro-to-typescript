@@ -4,8 +4,8 @@ import * as args from "command-line-args";
 import * as cmdusage from "command-line-usage";
 import * as fs from "fs";
 import * as path from "path";
-import {AvroToTypescriptCompiler} from "./components/AvroToTypescriptCompiler";
-import {ConsoleHelper} from "./helpers/ConsoleHelper";
+import { Compiler } from "./components/Compiler/Compiler";
+import { ConsoleHelper } from "./helpers/ConsoleHelper";
 
 const cmdOptions = [
     {
@@ -65,8 +65,6 @@ if (ConsoleHelper.validCompileArgs(options)) {
 
     const schemaDir: string = path.resolve(src);
 
-    const compiler: AvroToTypescriptCompiler = new AvroToTypescriptCompiler();
-    compiler.avroSchemaPath = schemaDir;
-    compiler.tsSchemaPath = dist;
-    compiler.compileFolder();
+    const compiler: Compiler = new Compiler(dist);
+    compiler.compileFolder(schemaDir);
 }
