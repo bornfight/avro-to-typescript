@@ -1,4 +1,4 @@
-export interface AvroSchemaInterface {
+export interface AvroSchema {
     type: TypeNames;
 }
 
@@ -12,29 +12,29 @@ export interface Field {
     default?: string | number | null | boolean | any[];
 }
 
-export interface RecordType extends AvroSchemaInterface {
+export interface RecordType extends AvroSchema {
     type: "record";
     name: string;
     namespace: string;
     fields: Field[];
 }
 
-export interface ArrayType extends AvroSchemaInterface {
+export interface ArrayType extends AvroSchema {
     type: "array";
     items: Type;
 }
 
-export interface MapType extends AvroSchemaInterface {
+export interface MapType extends AvroSchema {
     type: "map";
     values: Type;
 }
 
-export interface EnumType extends AvroSchemaInterface {
+export interface EnumType extends AvroSchema {
     type: "enum";
     name: string;
     symbols: string[];
 }
 
-export interface NamedType extends AvroSchemaInterface {
+export interface NamedType extends AvroSchema {
     type: string;
 }

@@ -1,12 +1,4 @@
-import {
-    ArrayType,
-    AvroSchemaInterface,
-    EnumType, Field,
-    MapType,
-    NamedType,
-    RecordType,
-    Type,
-} from "../interfaces/AvroSchemaInterface";
+import { ArrayType, EnumType, Field, MapType, NamedType, RecordType, Type } from "../interfaces/AvroSchema";
 
 export class TypeHelper {
 
