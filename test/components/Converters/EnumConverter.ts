@@ -9,7 +9,7 @@ chai.should();
 
 const dataFolder = path.resolve(`./test/data/`);
 const avroFolder = path.resolve(dataFolder + `/avro/`);
-const compiledFolder = path.resolve(dataFolder + `/compiled/`);
+const compiledFolder = path.resolve(dataFolder + `/expected/`);
 
 const getExpectedResult = (file: string) => {
     return fs.readFileSync(file).toString();
