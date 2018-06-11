@@ -7,7 +7,7 @@ const expect = chai.expect;
 
 chai.should();
 
-const dataFolder = path.resolve(`./test/data/`);
+const dataFolder = path.resolve(`${__dirname}/../../../test/data/`);
 const avroFolder = path.resolve(dataFolder + `/avro/`);
 const expectedFolder = path.resolve(dataFolder + `/expected/`);
 const compiledFolder = path.resolve(dataFolder + `/compiled/`);
@@ -24,8 +24,7 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/com/example.avro/User.ts`;
         const expectedFile = `${expectedFolder}/User.ts.test`;
 
-        const outputDir = path.resolve(`${__dirname}/../data/compiled`);
-        const compiler = new Compiler(outputDir);
+        const compiler = new Compiler(compiledFolder);
 
         await compiler.compile(avro);
 
@@ -40,8 +39,7 @@ describe("Testing Compiler", () => {
         const compiledFile = `${compiledFolder}/com/example.avro/TradeCollection.ts`;
         const expectedFile = `${expectedFolder}/TradeCollection.ts.test`;
 
-        const outputDir = path.resolve(`${__dirname}/../data/compiled`);
-        const compiler = new Compiler(outputDir);
+        const compiler = new Compiler(compiledFolder);
 
         await compiler.compile(avro);
 
