@@ -55,6 +55,10 @@ export class TypeHelper {
     }
 
     public static getDefault(field: Field): string | number | boolean | any[] | null {
+        if (field.default === undefined) {
+            return false;
+        }
+
         if (field.default === "") {
             return `""`;
         }

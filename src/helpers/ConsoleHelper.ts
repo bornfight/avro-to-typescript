@@ -1,5 +1,9 @@
 export class ConsoleHelper {
 
+    public static info(msg: string) {
+        console.info(msg);
+    }
+
     public static getArgs(): string[] {
         const args: string[] = process.argv;
         args.splice(0, 2);
@@ -12,17 +16,9 @@ export class ConsoleHelper {
     }
 
     public static break(error: string): void {
-        console.log(error);
-        console.log(this.getUsage());
+        console.error(error);
+        console.info(this.getUsage());
         process.exit();
-    }
-
-    public static validCompileArgs(options: any): boolean {
-        if (options.compile[0] === undefined || options.compile[1] === undefined) {
-            ConsoleHelper.break("Invalid parameters");
-        }
-
-        return true;
     }
 
     protected static _usage = "Check --help";
