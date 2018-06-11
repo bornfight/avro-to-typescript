@@ -43,28 +43,36 @@ let usage;
 
 try {
     options = args(cmdOptions);
+
+    console.log(options);
     usage = cmdusage(usageOptions);
 } catch (e) {
     ConsoleHelper.break("Invalid value or option used");
 }
 
-if (!options.compile) {
-    ConsoleHelper.break("Options could not be compiled");
+if (options === undefined) {
+    throw new Error();
 }
 
-if (ConsoleHelper.validCompileArgs(options)) {
-    console.log(options);
+if (options.compile) {
+    let schemaDir = options.compile[0];
+    let classDir = options.compile[1];
 
-    const src: string = path.resolve(options.compile[0]);
+    if (schemaDir === undefined || classDir === undefined) {
+        ConsoleHelper.break("Undefined");
+    }
 
-    if (!fs.existsSync(src)) {
+    classDir = path.resolve(classDir);
+    schemaDir = path.resolve(schemaDir);
+
+    if (!fs.existsSync(schemaDir) || !fs.existsSync(classDir)) {
         ConsoleHelper.break("The directory does not exist or is invalid");
     }
 
-    const dist: string = path.resolve(options.compile[1]);
-
-    const schemaDir: string = path.resolve(src);
-
-    const compiler: Compiler = new Compiler(dist);
+    const compiler: Compiler = new Compiler(classDir);
     compiler.compileFolder(schemaDir);
+}
+
+if (options.help !== undefined) {
+    console.log(usage);
 }
