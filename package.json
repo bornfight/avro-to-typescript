@@ -1,7 +1,14 @@
 {
   "name": "@degordian/avro-to-typescript",
-  "version": "2.0.1",
-  "description": "Modules is used to compile avro schemas to typescript interfaces.",
+  "version": "2.1.0",
+  "description": "Package for converting Avro schema files (.avsc) to TypeScript class files",
+  "keywords": [
+    "avro",
+    "avro schemas",
+    "typescript",
+    "compiler",
+    "converter"
+  ],
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "bin": {
@@ -11,9 +18,7 @@
     "doc": "docs",
     "dist": "dist",
     "src": "src",
-    "test": "test",
-    "avsc": "_avsc",
-    "_tsCompiled": "_tsCompiled"
+    "test": "test"
   },
   "scripts": {
     "start": "npm run build && node ./dist/src/index.js",
@@ -39,8 +44,6 @@
   },
   "homepage": "https://github.com/degordian/avro-to-typescript#readme",
   "dependencies": {
-    "@degordian/standards": "^1.0.6",
-    "@degordian/testing-toolkit": "^1.0.17",
     "@types/args": "^3.0.0",
     "@types/command-line-args": "^4.0.2",
     "@types/command-line-usage": "^5.0.0",
@@ -48,7 +51,11 @@
     "@types/node": "^9.6.0",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.4",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^5.0.0"
+  },
+  "devDependencies": {
+    "@degordian/standards": "^1.0.6",
+    "@degordian/testing-toolkit": "^1.0.17",
     "mocha-typescript": "^1.1.12",
     "tslint": "^5.9.1",
     "typescript": "^2.8.1"
