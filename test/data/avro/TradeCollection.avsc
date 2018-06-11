@@ -1,7 +1,7 @@
 {
   "type" : "record",
   "name" : "TradeCollection",
-  "namespace" : "dapp.kolektorka",
+  "namespace": "com.example.avro",
   "fields" : [ {
     "name" : "producerId",
     "type" : "string",
