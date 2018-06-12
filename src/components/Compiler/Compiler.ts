@@ -46,6 +46,7 @@ export class Compiler extends BaseCompiler {
         const result = classConverter.joinExports();
 
         DirHelper.mkdirIfNotExist(outputDir);
+        this.saveBaseAvroRecord();
         this.saveEnums(classConverter.enumExports, outputDir);
         this.saveClass(outputDir, data, result);
         console.log(`Wrote ${data.name}.ts in ${outputDir}`);
@@ -66,6 +67,17 @@ export class Compiler extends BaseCompiler {
             const savePath = `${outputDir}/${enumFile.name}Enum.ts`;
 
             fs.writeFileSync(savePath, enumFile.content);
+        }
+    }
+
+    protected saveBaseAvroRecord() {
+        const avroRecordPath = `${this.classPath}/BaseAvroRecord.ts`;
+
+        if (fs.existsSync(avroRecordPath)) {
+            fs.writeFileSync(
+                avroRecordPath,
+                "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
+            );
         }
     }
 }
