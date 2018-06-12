@@ -37,10 +37,10 @@ describe("RecordType Converter test", () => {
 
     it("should convert avro schema with interface to TS interface", () => {
         const converter = new RecordConverter();
-        converter.convert(`${avroFolder}/RecordWithinterface.avsc`);
+        converter.convert(`${avroFolder}/RecordWithInterface.avsc`);
 
         const actual = converter.joinExports();
-        const expected = getExpectedResult(`${compiledFolder}/RecordWithinterface.ts.test`);
+        const expected = getExpectedResult(`${compiledFolder}/RecordWithInterface.ts.test`);
         expect(actual).to.deep.equal(expected);
     });
 
