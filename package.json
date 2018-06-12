@@ -23,17 +23,12 @@
   "scripts": {
     "start": "npm run build && node ./dist/src/index.js",
     "build": "tsc",
+    "prepublishOnly": "npm run test && npm run generate-barrels",
+    "generate-barrels": "barrelsby --directory src/ --delete --include components src/interfaces --exclude base Base Avro/compression Avro/schema_registry",
     "test": "npm run tslint & npm run mocha",
     "tslint": "tslint --project tsconfig.json --format stylish",
     "tslint-jenkins": "tslint --project tsconfig.json -o tslint.xml -t checkstyle",
     "mocha": "mocha dist/test --reporter=nyan --recursive",
-    "tslint:fix": "tslint --project tsconfig.json --fix",
-    "tslint-fix": "npm run tslint:fix",
-    "mocha-jenkins-html": "npm run jenkins:mocha:html",
-    "mocha-jenkins-junit": "npm run jenkins:mocha:junit",
-    "jenkins:mocha:junit": "mocha dist/test --reporter=mocha-junit-reporter --reporter-options mochaFile=mocha.xml --recursive",
-    "jenkins:mocha:html": "mocha dist/test --reporter=doc --recursive",
-    "jenkins:tslint": "tslint --project tsconfig.json -o tslint.xml -t checkstyle",
     "travis:test": "npm run build && npm run test",
     "premocha": "npm run build"
   },
@@ -49,9 +44,12 @@
     "@types/command-line-usage": "^5.0.1",
     "@types/fs-extra": "^5.0.3",
     "@types/node": "^9.6.21",
+    "@types/schema-registry": "^1.17.0",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.5",
-    "fs-extra": "^5.0.0"
+    "fs-extra": "^5.0.0",
+    "schema-registry": "^1.17.0",
+    "typescript-memoize": "^1.0.0-alpha.3"
   },
   "devDependencies": {
     "@degordian/standards": "^1.0.8",
