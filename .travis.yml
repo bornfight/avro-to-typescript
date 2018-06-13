@@ -1,9 +1,17 @@
 language: node_js
 node_js:
-  - "9.8"
+- '9.8'
 before_install:
-  - npm install -g npm@5.10.0 && npm install node@9.0.0 -g
+- npm install -g npm@5.10.0 && npm install node@9.0.0 -g
 script: npm run travis:test
 cache:
   directories:
-    - "node_modules"
+  - node_modules
+deploy:
+  provider: npm
+  email: dvorsky.andrija@gmail.com
+  api_key:
+    secure: hC16oqPq7ySk3i+5/XckYsq61aTEMsgMhvyYRWM5F3p4g88bpPLXGsvFZ7JKmm4I3NPLlqkTo/ux7FES5/pNvPsnRWZ9e/mzd/c6WKQPTRaX6tUjk9eMAoWHhiJF7tlYXw0eUEgzp+6YzxTtunUPU1ZkibuuOqr/UtvnwP8rsdoBGBTLPmymtpKuE0A2/BMMfnQEUwu+rrQit27EEwRPFzVU9Z1jha29EkTOO1sy4DyTp3x4jBmlSJmgHs/qQGKjn0Uvf5Qmx0fuQTBIzSXCoOo5kMN/ZiM+A1BwvGCEDCyV26wOIHGcQ7rMD3Fmr+Dt2tRxC6w1fVF8NghM+RYhEXPROKTZToblHn7MaA3KTStnhGOD295ToXJwlQZxEf2oM96w4fvTFan+f4ldQUSXmlSyqsbrWYInREr2BCpMCdxTKZedgDQwpdYE8u/SX9uOWs7qL6pK3B8vzwbUHS+0VYICBKYlBIyD2vznmDMkG/pCBeZRlmfmfKIfvJOjIFRQX3Rov1IlEto4ie5mTHGIcGFXYIF0vmHAAg9EPTN5oqk573mAljs38uKQL59ITx1b9oL1oieITP1SG0f0FTB3Ozww1Gtjra1sRitvWPInbDXcxOuN2GgZg3bNAmkRdySgTrwTWh4mH7X4/A5Qv2KGKuPXq7tdF2OYJSliavVQgNA=
+  on:
+    repo: degordian/avro-to-typescript
+    branch: master
