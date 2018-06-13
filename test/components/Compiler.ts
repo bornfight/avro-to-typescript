@@ -16,6 +16,7 @@ describe("Testing Compiler", () => {
 
     afterEach(() => {
         fs.removeSync(compiledFolder + "/com");
+        fs.removeSync(compiledFolder + "/BaseAvroRecord.ts");
     });
 
     it(`should create User class when given User avro schema`, async () => {
@@ -38,6 +39,21 @@ describe("Testing Compiler", () => {
         const avro = `${avroFolder}/TradeCollection.avsc`;
         const compiledFile = `${compiledFolder}/com/example.avro/TradeCollection.ts`;
         const expectedFile = `${expectedFolder}/TradeCollection.ts.test`;
+
+        const compiler = new Compiler(compiledFolder);
+
+        await compiler.compile(avro);
+
+        const actual = fs.readFileSync(compiledFile).toString();
+        const expected = fs.readFileSync(expectedFile).toString();
+        expect(actual).to.deep.equal(expected);
+    });
+
+    it(`should create BaseAvroRecord file after compiling User schema`, async () => {
+
+        const avro = `${avroFolder}/User.avsc`;
+        const compiledFile = `${compiledFolder}/BaseAvroRecord.ts`;
+        const expectedFile = `${expectedFolder}/BaseAvroRecord.ts.test`;
 
         const compiler = new Compiler(compiledFolder);
 

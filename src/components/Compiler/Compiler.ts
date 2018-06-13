@@ -73,7 +73,7 @@ export class Compiler extends BaseCompiler {
     protected saveBaseAvroRecord() {
         const avroRecordPath = `${this.classPath}/BaseAvroRecord.ts`;
 
-        if (fs.existsSync(avroRecordPath)) {
+        if (!fs.existsSync(avroRecordPath)) {
             fs.writeFileSync(
                 avroRecordPath,
                 "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
