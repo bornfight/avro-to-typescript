@@ -17,12 +17,17 @@ export class Compiler extends BaseCompiler {
     }
 
     public async compileFolder(schemaPath: string): Promise<void> {
-        this.schemaPath = schemaPath;
-
         try {
-            fs.readdir(this.schemaPath, async (err, files) => {
+            fs.readdir(schemaPath, async (err, files) => {
                 for (const file of files) {
-                    const data = fs.readFileSync(this.schemaPath + "/" + file).toString();
+                    const fullPath = schemaPath + "/" + file;
+
+                    if (fs.statSync(fullPath).isDirectory()) {
+                        await this.compileFolder(fullPath);
+                        continue;
+                    }
+
+                    const data = fs.readFileSync(fullPath).toString();
 
                     await this.compile(data);
                 }
@@ -36,7 +41,7 @@ export class Compiler extends BaseCompiler {
         const classConverter = new ClassConverter();
         data = classConverter.getData(data);
 
-        const namespace = data.namespace.replace(".", "/");
+        const namespace = data.namespace.replace(/\./g, "/");
         const outputDir = `${this.classPath}/${namespace}`;
 
         if (TypeHelper.isRecordType(data)) {

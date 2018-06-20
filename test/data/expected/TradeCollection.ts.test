@@ -1,7 +1,7 @@
 // tslint:disable
-import {BaseAvroRecord} from "../../BaseAvroRecord";
-import {TradeType} from "./TradeTypeEnum.ts";
-import {TradeDirection} from "./TradeDirectionEnum.ts";
+import { BaseAvroRecord } from "../../../BaseAvroRecord";
+import { TradeType } from "./TradeTypeEnum";
+import { TradeDirection } from "./TradeDirectionEnum";
 
 export interface Trade {
     id: string;

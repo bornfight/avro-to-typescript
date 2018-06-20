@@ -1,7 +1,7 @@
 // tslint:disable
-import {BaseAvroRecord} from "../../BaseAvroRecord";
-import {OAuthStatus} from "./OAuthStatusEnum.ts";
-import {ToDoStatus} from "./ToDoStatusEnum.ts";
+import { BaseAvroRecord } from "../../../BaseAvroRecord";
+import { OAuthStatus } from "./OAuthStatusEnum";
+import { ToDoStatus } from "./ToDoStatusEnum";
 
 export interface EmailAddress {
     address: string;

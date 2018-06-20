@@ -22,7 +22,7 @@ describe("Testing Compiler", () => {
     it(`should create User class when given User avro schema`, async () => {
 
         const avro = `${avroFolder}/User.avsc`;
-        const compiledFile = `${compiledFolder}/com/example.avro/User.ts`;
+        const compiledFile = `${compiledFolder}/com/example/avro/User.ts`;
         const expectedFile = `${expectedFolder}/User.ts.test`;
 
         const compiler = new Compiler(compiledFolder);
@@ -37,7 +37,7 @@ describe("Testing Compiler", () => {
     it(`should create TradeCollection class when given TradeCollection avro schema`, async () => {
 
         const avro = `${avroFolder}/TradeCollection.avsc`;
-        const compiledFile = `${compiledFolder}/com/example.avro/TradeCollection.ts`;
+        const compiledFile = `${compiledFolder}/com/example/avro/TradeCollection.ts`;
         const expectedFile = `${expectedFolder}/TradeCollection.ts.test`;
 
         const compiler = new Compiler(compiledFolder);

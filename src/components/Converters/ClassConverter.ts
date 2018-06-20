@@ -17,7 +17,7 @@ export class ClassConverter extends RecordConverter {
         data = this.getData(data) as RecordType;
 
         this.classRows.push(...this.extractClass(data));
-        this.importRows.push(...this.extractImports());
+        this.importRows.push(...this.extractImports(data));
 
         this.getExportModels(data);
 
@@ -47,14 +47,15 @@ export class ClassConverter extends RecordConverter {
         return classExportModel;
     }
 
-    protected extractImports(): string[] {
+    protected extractImports(data: RecordType): string[] {
         const rows: string[] = [];
+        const dirsUp: number = data.namespace.split(".").length;
 
         rows.push(`// tslint:disable`);
-        rows.push(`import {BaseAvroRecord} from "../../BaseAvroRecord";`);
+        rows.push(`import { BaseAvroRecord } from "` + "../".repeat(dirsUp) + `BaseAvroRecord";`);
 
         for (const enumFile of this.enumExports) {
-            const importLine = `import {${enumFile.name}} from "./${enumFile.name}Enum.ts";`;
+            const importLine = `import { ${enumFile.name} } from "./${enumFile.name}Enum";`;
             rows.push(importLine);
         }
 
