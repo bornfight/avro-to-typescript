@@ -1,4 +1,5 @@
 export * from "./components/Avro/AvroRecord";
+export * from "./components/Avro/BaseAvroRecord";
 export * from "./components/Avro/KafkaAvroMessage";
 export * from "./components/Avro/serde/KafkaAvroDeserializer";
 export * from "./components/Avro/serde/KafkaAvroFactory";
