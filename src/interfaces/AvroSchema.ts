@@ -3,7 +3,7 @@ export interface AvroSchema {
 }
 
 export type Type = NameOrType | NameOrType[];
-export type NameOrType = TypeNames | RecordType | ArrayType | NamedType;
+export type NameOrType = TypeNames | RecordType | ArrayType | NamedType | LogicalType;
 export type TypeNames = "record" | "array" | "null" | "map" | string;
 
 export interface Field {
@@ -37,4 +37,9 @@ export interface EnumType extends AvroSchema {
 
 export interface NamedType extends AvroSchema {
     type: string;
+}
+
+export interface LogicalType extends AvroSchema {
+    type: string;
+    logicalType: string;
 }
