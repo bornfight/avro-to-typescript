@@ -4,6 +4,7 @@ import { Field, RecordType, Type } from "../../interfaces/AvroSchema";
 import { ExportModel } from "../../models/ExportModel";
 import { BaseConverter } from "./base/BaseConverter";
 import { EnumConverter } from "./EnumConverter";
+import { LogicalTypeConverter } from "./LogicalTypeConverter";
 import { PrimitiveConverter } from "./PrimitiveConverter";
 
 export class RecordConverter extends BaseConverter {
@@ -41,6 +42,12 @@ export class RecordConverter extends BaseConverter {
     protected convertType(type: Type): string {
         if (typeof type === "string") {
             const converter = new PrimitiveConverter();
+
+            return converter.convert(type);
+        }
+
+        if (TypeHelper.isLogicalType(type)) {
+            const converter = new LogicalTypeConverter(this.logicalTypesMap);
 
             return converter.convert(type);
         }

@@ -21,6 +21,13 @@ const cmdOptions = [
         alias: "h",
         description: "Print this usage guide.",
     },
+    {
+        name: "logical-types",
+        type: String,
+        typeLabel: "{underline logical-type} {underline typescript-type}",
+        description: "Use logical types",
+        multiple: true,
+    },
 ];
 
 const usageOptions = [
@@ -69,7 +76,18 @@ if (options.compile) {
         ConsoleHelper.break("The directory does not exist or is invalid");
     }
 
-    const compiler: Compiler = new Compiler(classDir);
+    const logicalTypes = {};
+    const logicalTypesMap = options["logical-types"];
+    if (logicalTypesMap && logicalTypesMap.length) {
+        for (let index = 0; index < logicalTypesMap.length; index += 2) {
+            if (!logicalTypesMap[index + 1]) {
+                ConsoleHelper.break("Invalid logical-types, you must alternate logical type with typescript type");
+            }
+            logicalTypes[logicalTypesMap[index]] = logicalTypesMap[index + 1];
+        }
+    }
+
+    const compiler: Compiler = new Compiler(classDir, logicalTypes);
     compiler.compileFolder(schemaDir);
 }
 

@@ -16,6 +16,8 @@ export abstract class BaseConverter {
     public enumExports: ExportModel[] = [];
     public interfaceExports: ExportModel[] = [];
 
+    constructor(public logicalTypesMap: { [key: string]: string } = {}) {}
+
     public abstract convert(data: any): any;
 
     public joinExports(): string {

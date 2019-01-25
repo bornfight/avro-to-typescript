@@ -1,4 +1,13 @@
-import { ArrayType, EnumType, Field, MapType, NamedType, RecordType, Type } from "../interfaces/AvroSchema";
+import {
+    ArrayType,
+    EnumType,
+    Field,
+    LogicalType,
+    MapType,
+    NamedType,
+    RecordType,
+    Type,
+} from "../interfaces/AvroSchema";
 
 export class TypeHelper {
 
@@ -32,6 +41,13 @@ export class TypeHelper {
 
     public static isUnion(schema: Type): schema is NamedType[] {
         return schema instanceof Array;
+    }
+
+    public static isLogicalType(schema: Type): schema is LogicalType {
+        if (typeof schema === "string" || schema instanceof Array) {
+            return false;
+        }
+        return "logicalType" in schema;
     }
 
     public static isOptional(schema: Type): boolean {

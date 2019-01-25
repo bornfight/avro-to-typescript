@@ -10,7 +10,7 @@ import { BaseCompiler } from "./base/BaseCompiler";
 export class Compiler extends BaseCompiler {
     public exports: ExportModel[];
 
-    public constructor(outputDir: string) {
+    public constructor(outputDir: string, public logicalTypes?: { [key: string ]: string}) {
         super();
 
         this.classPath = path.resolve(outputDir);
@@ -38,7 +38,7 @@ export class Compiler extends BaseCompiler {
     }
 
     public async compile(data: any): Promise<CompilerOutput> {
-        const classConverter = new ClassConverter();
+        const classConverter = new ClassConverter(this.logicalTypes);
         data = classConverter.getData(data);
 
         const namespace = data.namespace.replace(/\./g, "/");

@@ -62,6 +62,24 @@ describe("RecordType Converter test", () => {
         expect(actual).to.deep.equal(expected);
     });
 
+    it("should convert avro schema with logical types", () => {
+        const converter = new RecordConverter();
+        converter.convert(`${avroFolder}/RecordWithLogicalTypes.avsc`);
+
+        const actual = converter.joinExports();
+        const expected = getExpectedResult(`${compiledFolder}/RecordWithLogicalTypes.ts.test`);
+        expect(actual).to.deep.equal(expected);
+    });
+
+    it("should convert avro schema with mapped logical types", () => {
+        const converter = new RecordConverter({ "timestamp-millis" : "string" });
+        converter.convert(`${avroFolder}/RecordWithLogicalTypes.avsc`);
+
+        const actual = converter.joinExports();
+        const expected = getExpectedResult(`${compiledFolder}/RecordWithLogicalTypesMapped.ts.test`);
+        expect(actual).to.deep.equal(expected);
+    });
+
     it("should convert avro schema with MapType type to TS interface", () => {
         const converter = new RecordConverter();
         converter.convert(`${avroFolder}/ComplexRecord.avsc`);
