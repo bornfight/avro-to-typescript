@@ -43,6 +43,25 @@ npm install @degordian/avro-to-typescript --save
     const compiler = new Compiler(outputDir);
     await compiler.compile(avro);
 
+#### Logical Types:
+If you want to take advantage of logical types, you can pass these as an argument to the cli
+```sh
+avro-to-typescript --compile [ schema-directory ] [ output-directory ] --logical-types [avro type] [typescript type]
+```
+
+You can even pass more than one if you alternate them:
+```sh
+avro-to-typescript --compile [ schema-directory ] [ output-directory ] --logical-types [avro type] [typescript type] [avro type] [typescript type]
+```
+
+You can also pass them to the compilre in your code directly:
+
+    import { Compiler } from "degordian/avro-to-typescript";
+
+    const compiler = new Compiler(outputDir, { date: 'string', 'timestamp-millis': 'string'} });
+    await compiler.compile(avro);
+
+If there are logical types in avro schema but you don't provide a mapping for them, they will default to the underlying primitive type.
 
 Contribution and Support
 ------------------------
