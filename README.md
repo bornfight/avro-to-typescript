@@ -61,7 +61,7 @@ You can also pass them to the compilre in your code directly:
     const compiler = new Compiler(outputDir, { date: 'string', 'timestamp-millis': 'string'} });
     await compiler.compile(avro);
 
-If there are logical types in avro schema but you don't provide a mapping for them, they will default to the underlying primitive type.
+If there are logical types in the avro schema but you don't provide a mapping for them, they will default to the underlying primitive type.
 
 Contribution and Support
 ------------------------
