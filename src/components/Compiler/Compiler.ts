@@ -10,7 +10,7 @@ import { BaseCompiler } from "./base/BaseCompiler";
 export class Compiler extends BaseCompiler {
     public exports: ExportModel[];
 
-    public constructor(outputDir: string, public logicalTypes?: { [key: string ]: string}) {
+    public constructor(outputDir: string, public logicalTypes?: { [key: string]: string }) {
         super();
 
         this.classPath = path.resolve(outputDir);
@@ -20,7 +20,7 @@ export class Compiler extends BaseCompiler {
         try {
             fs.readdir(schemaPath, async (err, files) => {
                 for (const file of files) {
-                    const fullPath = schemaPath + "/" + file;
+                    const fullPath = schemaPath + path.sep + file;
 
                     if (fs.statSync(fullPath).isDirectory()) {
                         await this.compileFolder(fullPath);
@@ -41,8 +41,8 @@ export class Compiler extends BaseCompiler {
         const classConverter = new ClassConverter(this.logicalTypes);
         data = classConverter.getData(data);
 
-        const namespace = data.namespace.replace(/\./g, "/");
-        const outputDir = `${this.classPath}/${namespace}`;
+        const namespace = data.namespace.replace(/\./g, path.sep);
+        const outputDir = `${this.classPath}${path.sep}${namespace}`;
 
         if (TypeHelper.isRecordType(data)) {
             classConverter.convert(data);
@@ -63,20 +63,20 @@ export class Compiler extends BaseCompiler {
     }
 
     protected saveClass(outputDir: string, data: any, result: string) {
-        const classFile = `${outputDir}/${data.name}.ts`;
+        const classFile = `${outputDir}${path.sep}${data.name}.ts`;
         fs.writeFileSync(classFile, result);
     }
 
     protected saveEnums(enums: ExportModel[], outputDir: string) {
         for (const enumFile of enums) {
-            const savePath = `${outputDir}/${enumFile.name}Enum.ts`;
+            const savePath = `${outputDir}${path.sep}${enumFile.name}Enum.ts`;
 
             fs.writeFileSync(savePath, enumFile.content);
         }
     }
 
     protected saveBaseAvroRecord() {
-        const avroRecordPath = `${this.classPath}/BaseAvroRecord.ts`;
+        const avroRecordPath = `${this.classPath}${path.sep}BaseAvroRecord.ts`;
 
         if (!fs.existsSync(avroRecordPath)) {
             fs.writeFileSync(
