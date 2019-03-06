@@ -85,10 +85,17 @@ export class ClassConverter extends RecordConverter {
         rows.push(``);
 
         for (const field of data.fields) {
-            const fieldType = `${this.getField(field)}`;
-
-            const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
-            const classRow = `${TAB}public ${fieldType}${defaultValue};`;
+            let fieldType;
+            let classRow;
+            if (TypeHelper.hasDefault(field) || TypeHelper.isOptional(field.type)) {
+                const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
+                fieldType = `${this.getField(field)}`;
+                classRow = `${TAB}public ${fieldType}${defaultValue};`;
+            } else {
+                const convertedType = this.convertType(field.type);
+                fieldType = `${field.name}: ${convertedType}`;
+                classRow = `${TAB}public ${field.name}!: ${convertedType};`;
+            }
 
             interfaceRows.push(`${this.TAB}${fieldType};`);
 
