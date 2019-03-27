@@ -83,6 +83,10 @@ export class TypeHelper {
             return `[]`;
         }
 
+        if (this.isEnumType(field.type)) {
+            return `${field.type.name}.${field.default}`;
+        }
+
         return field.default;
     }
 }
