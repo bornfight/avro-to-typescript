@@ -1,6 +1,6 @@
 {
   "name": "@degordian/avro-to-typescript",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "description": "Package for converting Avro schema files (.avsc) to TypeScript class files",
   "keywords": [
     "avro",
@@ -52,8 +52,9 @@
     "typescript-memoize": "^1.0.0-alpha.3"
   },
   "devDependencies": {
+    "@degordian/avro-to-typescript": "latest",
     "@degordian/standards": "^1.0.8",
-    "@degordian/testing-toolkit": "^1.0.17",
+    "@degordian/testing-toolkit": "^1.0.18",
     "mocha-typescript": "^1.1.16",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1"
