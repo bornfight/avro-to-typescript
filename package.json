@@ -1,5 +1,5 @@
 {
-  "name": "@degordian/avro-to-typescript",
+  "name": "@sidv/avro-to-typescript",
   "version": "2.2.3",
   "description": "Package for converting Avro schema files (.avsc) to TypeScript class files",
   "keywords": [
