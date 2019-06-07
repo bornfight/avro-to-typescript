@@ -16,7 +16,7 @@ export class ConsoleHelper {
     }
 
     public static break(error: string): void {
-        console.error(error);
+        console.error(`Error: ${error}`);
         console.info(this.getUsage());
         process.exit();
     }

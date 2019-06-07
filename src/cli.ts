@@ -6,6 +6,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { Compiler } from "./components/Compiler/Compiler";
 import { ConsoleHelper } from "./helpers/ConsoleHelper";
+import { LogicalTypeOptions } from "./interfaces/CompilerOptions";
 
 const cmdOptions = [
     {
@@ -15,6 +16,11 @@ const cmdOptions = [
         typeLabel: "{underline schema-directory} {underline output-directory}",
         description: "Compile schema directory into output directory",
         multiple: true,
+    },
+    {
+        name: "string-enums",
+        type: Boolean,
+        description: "Should enums be compiled to string enums (default: incremental enums)",
     },
     {
         name: "help",
@@ -34,7 +40,7 @@ const usageOptions = [
     {
         header: "avro-to-typescript",
         content: "Compile avro schemas to typescript classes with ease. It will output to set directory " +
-        "and append namespace to path.",
+            "and append namespace to path.",
     },
     {
         header: "Options",
@@ -51,44 +57,55 @@ let usage;
 try {
     options = args(cmdOptions);
 
-    console.log(options);
     usage = cmdusage(usageOptions);
 } catch (e) {
     ConsoleHelper.break("Invalid value or option used");
 }
 
 if (options === undefined) {
-    throw new Error();
+    ConsoleHelper.break("Could not get program arguments");
+    throw process.exit(1);
 }
 
 if (options.compile) {
-    let schemaDir = options.compile[0];
-    let classDir = options.compile[1];
+    let avroSchemaDirectory = options.compile[0];
+    let outputDirectory = options.compile[1];
 
-    if (schemaDir === undefined || classDir === undefined) {
-        ConsoleHelper.break("Undefined");
+    if (avroSchemaDirectory === undefined || outputDirectory === undefined) {
+        const missingOption = avroSchemaDirectory === undefined ? "Schema directory" : "Output directory";
+        ConsoleHelper.break(`${missingOption} argument is missing.`);
     }
 
-    classDir = path.resolve(classDir);
-    schemaDir = path.resolve(schemaDir);
+    outputDirectory = path.resolve(outputDirectory);
+    avroSchemaDirectory = path.resolve(avroSchemaDirectory);
 
-    if (!fs.existsSync(schemaDir) || !fs.existsSync(classDir)) {
-        ConsoleHelper.break("The directory does not exist or is invalid");
+    if (!fs.existsSync(avroSchemaDirectory) || !fs.existsSync(outputDirectory)) {
+        const missingOption = !fs.existsSync(avroSchemaDirectory) ? "Schema directory" : "Output directory";
+        ConsoleHelper.break(`The ${missingOption} directory does not exist or is invalid`);
     }
 
-    const logicalTypes = {};
-    const logicalTypesMap = options["logical-types"];
-    if (logicalTypesMap && logicalTypesMap.length) {
+    const logicalTypes: LogicalTypeOptions = {};
+    const logicalTypesMap: string[] = options["logical-types"];
+
+    /**
+     * Parse logical type argument options, it is parsed as [avroType, tsType, avroType, tsType, ...]
+     * That's the reason for "index + 1".
+     */
+    if (logicalTypesMap !== undefined && logicalTypesMap.length !== 0) {
         for (let index = 0; index < logicalTypesMap.length; index += 2) {
-            if (!logicalTypesMap[index + 1]) {
-                ConsoleHelper.break("Invalid logical-types, you must alternate logical type with typescript type");
+            const avroTypeIndex = index;
+            const typescriptTypeIndex = index + 1;
+
+            if (logicalTypesMap[typescriptTypeIndex] === undefined) {
+                ConsoleHelper.break("Invalid logical-types, you must provide both logical type and TypeScript type");
             }
-            logicalTypes[logicalTypesMap[index]] = logicalTypesMap[index + 1];
+
+            logicalTypes[logicalTypesMap[avroTypeIndex]] = logicalTypesMap[typescriptTypeIndex];
         }
     }
 
-    const compiler: Compiler = new Compiler(classDir, logicalTypes);
-    compiler.compileFolder(schemaDir);
+    const compiler: Compiler = new Compiler(outputDirectory, logicalTypes);
+    compiler.compileFolder(avroSchemaDirectory);
 }
 
 if (options.help !== undefined) {

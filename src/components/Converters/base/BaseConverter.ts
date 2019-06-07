@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { SpecialCharacterHelper } from "../../../helpers/SpecialCharacterHelper";
 import { AvroSchema } from "../../../interfaces/AvroSchema";
+import { CompilerOptions } from "../../../interfaces/CompilerOptions";
 import { ExportModel } from "../../../models/ExportModel";
 
 export abstract class BaseConverter {
@@ -16,7 +17,7 @@ export abstract class BaseConverter {
     public enumExports: ExportModel[] = [];
     public interfaceExports: ExportModel[] = [];
 
-    constructor(public logicalTypesMap: { [key: string]: string } = {}) {}
+    constructor(protected compilerOptions?: CompilerOptions) {}
 
     public abstract convert(data: any): any;
 

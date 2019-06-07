@@ -2,6 +2,7 @@ import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import { EnumConverter } from "../../../src";
+import { CompilerOptions } from "../../../src/interfaces/CompilerOptions";
 
 const expect = chai.expect;
 
@@ -23,6 +24,19 @@ describe("Enum Converter", () => {
 
         const actual = converter.joinExports();
         const expected = getExpectedResult(`${compiledFolder}/SimpleEnum.ts.test`);
+        expect(actual).to.deep.equal(expected);
+    });
+
+    it(`should compile to TypeScript enum with string values if option is provided`, () => {
+        const compilerOptions: CompilerOptions = {
+            stringEnums: true,
+        };
+        const converter = new EnumConverter(compilerOptions);
+
+        converter.convert(`${avroFolder}/SimpleEnum.avsc`);
+
+        const actual = converter.joinExports();
+        const expected = getExpectedResult(`${compiledFolder}/SimpleEnumStringValues.ts.test`);
         expect(actual).to.deep.equal(expected);
     });
 });

@@ -47,13 +47,13 @@ export class RecordConverter extends BaseConverter {
         }
 
         if (TypeHelper.isLogicalType(type)) {
-            const converter = new LogicalTypeConverter(this.logicalTypesMap);
+            const converter = new LogicalTypeConverter(this.compilerOptions);
 
             return converter.convert(type);
         }
 
         if (TypeHelper.isEnumType(type)) {
-            const converter = new EnumConverter();
+            const converter = new EnumConverter(this.compilerOptions);
             const exportModel = converter.convert(type);
             this.enumExports.push(exportModel);
 

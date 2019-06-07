@@ -2,6 +2,7 @@ import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import { RecordConverter } from "../../../src";
+import { CompilerOptions } from "../../../src/interfaces/CompilerOptions";
 
 const expect = chai.expect;
 
@@ -71,8 +72,11 @@ describe("RecordType Converter test", () => {
         expect(actual).to.deep.equal(expected);
     });
 
-    it("should convert avro schema with mapped logical types", () => {
-        const converter = new RecordConverter({ "timestamp-millis" : "string" });
+    it("should convert avro schema with mapped logical types when option provided", () => {
+        const compilerOptions: CompilerOptions = {
+            logicalTypes: {"timestamp-millis": "string"},
+        };
+        const converter = new RecordConverter(compilerOptions);
         converter.convert(`${avroFolder}/RecordWithLogicalTypes.avsc`);
 
         const actual = converter.joinExports();

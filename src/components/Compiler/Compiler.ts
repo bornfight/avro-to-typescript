@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DirHelper } from "../../helpers/DirHelper";
 import { TypeHelper } from "../../helpers/TypeHelper";
+import { CompilerOptions } from "../../interfaces/CompilerOptions";
 import { CompilerOutput } from "../../interfaces/CompilerOutput";
 import { ExportModel } from "../../models/ExportModel";
 import { ClassConverter } from "../Converters/ClassConverter";
@@ -10,35 +11,27 @@ import { BaseCompiler } from "./base/BaseCompiler";
 export class Compiler extends BaseCompiler {
     public exports: ExportModel[];
 
-    public constructor(outputDir: string, public logicalTypes?: { [key: string]: string }) {
+    private readonly compilerOptions?: CompilerOptions;
+
+    public constructor(outputDir: string, compilerOptions?: CompilerOptions) {
         super();
 
         this.classPath = path.resolve(outputDir);
+        this.compilerOptions = compilerOptions;
     }
 
     public async compileFolder(schemaPath: string): Promise<void> {
         try {
-            fs.readdir(schemaPath, async (err, files) => {
-                for (const file of files) {
-                    const fullPath = schemaPath + path.sep + file;
+            const files = fs.readdirSync(schemaPath).map((file) => schemaPath + path.sep + file);
+            files.forEach(this.processFile);
 
-                    if (fs.statSync(fullPath).isDirectory()) {
-                        await this.compileFolder(fullPath);
-                        continue;
-                    }
-
-                    const data = fs.readFileSync(fullPath).toString();
-
-                    await this.compile(data);
-                }
-            });
         } catch (err) {
             console.log(err);
         }
     }
 
     public async compile(data: any): Promise<CompilerOutput> {
-        const classConverter = new ClassConverter(this.logicalTypes);
+        const classConverter = new ClassConverter(this.compilerOptions);
         data = classConverter.getData(data);
 
         const namespace = data.namespace.replace(/\./g, path.sep);
@@ -84,5 +77,16 @@ export class Compiler extends BaseCompiler {
                 "export { BaseAvroRecord } from \"@degordian/avro-to-typescript\";\n",
             );
         }
+    }
+
+    private async processFile(filePath: string) {
+        if (fs.statSync(filePath).isDirectory()) {
+            await this.compileFolder(filePath);
+            return;
+        }
+
+        const data = fs.readFileSync(filePath).toString();
+
+        await this.compile(data);
     }
 }
