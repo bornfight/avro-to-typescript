@@ -35,6 +35,7 @@ export interface UserInterface {
     emailAddresses: EmailAddress[];
     twitterAccounts: TwitterAccount[];
     toDoItems: ToDoItem[];
+    source: string;
 }
 
 export class User extends BaseAvroRecord implements UserInterface {
@@ -220,6 +221,12 @@ export class User extends BaseAvroRecord implements UserInterface {
                     ]
                 }
             }
+        },
+        {
+            "name": "source",
+            "doc": "The source of this user's sign-up.",
+            "type": "string",
+            "default": "organic"
         }
     ]
 }
@@ -239,6 +246,7 @@ export class User extends BaseAvroRecord implements UserInterface {
     public emailAddresses!: EmailAddress[];
     public twitterAccounts!: TwitterAccount[];
     public toDoItems!: ToDoItem[];
+    public source: string = "organic";
 
     public schema(): object {
         return User.schema;
