@@ -79,6 +79,10 @@ export class TypeHelper {
             return `""`;
         }
 
+        if (field.type === "string") {
+            return `"${field.default}"`;
+        }
+
         if (Array.isArray(field.default) && field.default.length === 0) {
             return `[]`;
         }
