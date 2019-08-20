@@ -23,6 +23,7 @@ export class CachedSchemaRegistryClient implements SchemaRegistry {
             host: config.host,
             port: config.port,
             logger: (config.logger !== undefined) ? config.logger : this._defaultLogger,
+            protocol: config.protocol,
         };
         this.client = new RegistryClient(clientConfig);
     }
