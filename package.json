@@ -40,11 +40,6 @@
   },
   "homepage": "https://github.com/chasdevs/avro-to-typescript#readme",
   "dependencies": {
-    "@types/args": "^3.0.0",
-    "@types/command-line-args": "^4.0.3",
-    "@types/command-line-usage": "^5.0.1",
-    "@types/fs-extra": "^5.0.3",
-    "@types/node": "^9.6.21",
     "avsc": "^5.4.13",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.5",
@@ -52,8 +47,12 @@
     "typescript-memoize": "^1.0.0-alpha.3"
   },
   "devDependencies": {
+    "@types/args": "^3.0.0",
+    "@types/command-line-args": "^4.0.3",
+    "@types/command-line-usage": "^5.0.1",
+    "@types/fs-extra": "^5.0.3",
+    "@types/node": "^9.6.21",
     "@degordian/standards": "^1.0.8",
-    "@degordian/testing-toolkit": "^1.0.18",
     "mocha-typescript": "^1.1.16",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1"
