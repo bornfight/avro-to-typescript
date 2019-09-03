@@ -1,6 +1,6 @@
 {
   "name": "@chasdevs/avro-to-typescript",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Package for converting Avro schema files (.avsc) to TypeScript class files",
   "repository": "git@github.com:chasdevs/avro-to-typescript.git",
   "keywords": [
