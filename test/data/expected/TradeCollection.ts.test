@@ -114,14 +114,6 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
     ]
 }
 
-    public static deserialize(buffer: Buffer, newSchema?: object): TradeCollection {
-        const result = new TradeCollection();
-        const rawResult = this.internalDeserialize(buffer, newSchema);
-        result.loadValuesFromType(rawResult);
-
-        return result;
-    }
-
     public producerId: string = "";
     public exchange: string = "";
     public market: string = "";

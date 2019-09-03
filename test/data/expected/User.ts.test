@@ -231,14 +231,6 @@ export class User extends BaseAvroRecord implements UserInterface {
     ]
 }
 
-    public static deserialize(buffer: Buffer, newSchema?: object): User {
-        const result = new User();
-        const rawResult = this.internalDeserialize(buffer, newSchema);
-        result.loadValuesFromType(rawResult);
-
-        return result;
-    }
-
     public id!: number;
     public username!: string;
     public passwordHash!: string;

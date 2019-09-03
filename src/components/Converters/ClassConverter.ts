@@ -75,15 +75,6 @@ export class ClassConverter extends RecordConverter {
         rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);
         rows.push(``);
 
-        rows.push(`${TAB}public static deserialize(buffer: Buffer, newSchema?: object): ${data.name} {`);
-        rows.push(`${TAB}${TAB}const result = new ${data.name}();`);
-        rows.push(`${TAB}${TAB}const rawResult = this.internalDeserialize(buffer, newSchema);`);
-        rows.push(`${TAB}${TAB}result.loadValuesFromType(rawResult);`);
-        rows.push(``);
-        rows.push(`${TAB}${TAB}return result;`);
-        rows.push(`${TAB}}`);
-        rows.push(``);
-
         for (const field of data.fields) {
             let fieldType;
             let classRow;

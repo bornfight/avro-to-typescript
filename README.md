@@ -14,8 +14,6 @@ Features
 --------
 
 - Compiles most if not all avro types (**record**, **enum**, **primitive**, **map**, **array**)
-- Provides methods for effective serialization and deserialization of avro to js and vice versa
-
 
 Usage
 -----
