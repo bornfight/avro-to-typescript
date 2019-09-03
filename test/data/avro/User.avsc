@@ -154,6 +154,12 @@
           ]
         }
       }
+    },
+    {
+      "name": "source",
+      "doc": "The source of this user's sign-up.",
+      "type": "string",
+      "default": "organic"
     }
   ]
 }
