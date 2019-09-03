@@ -1,5 +1,3 @@
-import { Serializable } from "./serde/Serializable";
-
-export interface AvroRecord extends Serializable {
+export interface AvroRecord {
     schema(): object;
 }

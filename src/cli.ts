@@ -41,7 +41,7 @@ const usageOptions = [
         optionList: cmdOptions,
     },
     {
-        content: "Project home: {underline https://github.com/degordian/avro-to-typescript}",
+        content: "Project home: {underline https://github.com/chasdevs/avro-to-typescript}",
     },
 ];
 

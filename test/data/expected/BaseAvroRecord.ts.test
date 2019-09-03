@@ -1,1 +1,1 @@
-export { BaseAvroRecord } from "@degordian/avro-to-typescript";
+export { BaseAvroRecord } from "@chasdevs/avro-to-typescript";
