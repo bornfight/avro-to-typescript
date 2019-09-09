@@ -40,7 +40,16 @@ export interface UserInterface {
 
 export class User extends BaseAvroRecord implements UserInterface {
 
-    public static readonly subject: string = "User";
+    public id!: number;
+    public username!: string;
+    public passwordHash!: string;
+    public signupDate!: number;
+    public emailAddresses!: EmailAddress[];
+    public twitterAccounts!: TwitterAccount[];
+    public toDoItems!: ToDoItem[];
+    public source: string = "organic";
+
+    public static readonly subject: string = "user";
     public static readonly schema: object = {
     "type": "record",
     "name": "User",
@@ -230,15 +239,6 @@ export class User extends BaseAvroRecord implements UserInterface {
         }
     ]
 }
-
-    public id!: number;
-    public username!: string;
-    public passwordHash!: string;
-    public signupDate!: number;
-    public emailAddresses!: EmailAddress[];
-    public twitterAccounts!: TwitterAccount[];
-    public toDoItems!: ToDoItem[];
-    public source: string = "organic";
 
     public schema(): object {
         return User.schema;

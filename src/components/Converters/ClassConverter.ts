@@ -71,10 +71,6 @@ export class ClassConverter extends RecordConverter {
         rows.push(`export class ${data.name} extends BaseAvroRecord implements ${data.name}${this.interfaceSuffix} {`);
         rows.push(``);
 
-        rows.push(`${TAB}public static readonly subject: string = "${data.name}";`);
-        rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);
-        rows.push(``);
-
         for (const field of data.fields) {
             let fieldType;
             let classRow;
@@ -92,23 +88,31 @@ export class ClassConverter extends RecordConverter {
 
             rows.push(classRow);
         }
-        interfaceRows.push("}");
 
         rows.push(``);
-
+        rows.push(`${TAB}public static readonly subject: string = "${this.toKebabCase(data.name)}";`);
+        rows.push(`${TAB}public static readonly schema: object = ${JSON.stringify(data, null, 4)}`);
+        rows.push(``);
         rows.push(`${TAB}public schema(): object {`);
         rows.push(`${TAB}${TAB}return ${data.name}.schema;`);
         rows.push(`${TAB}}`);
-
         rows.push(``);
-
         rows.push(`${TAB}public subject(): string {`);
         rows.push(`${TAB}${TAB}return ${data.name}.subject;`);
         rows.push(`${TAB}}`);
-
         rows.push(`}`);
 
+        interfaceRows.push("}");
         this.interfaceRows.push(...interfaceRows);
+
         return rows;
     }
+
+    private toKebabCase(str: string): string {
+        return str
+            .split(/(?=[A-Z])/)
+            .join("-")
+            .toLowerCase();
+    }
+
 }

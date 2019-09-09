@@ -22,7 +22,12 @@ export interface TradeCollectionInterface {
 
 export class TradeCollection extends BaseAvroRecord implements TradeCollectionInterface {
 
-    public static readonly subject: string = "TradeCollection";
+    public producerId: string = "";
+    public exchange: string = "";
+    public market: string = "";
+    public trades: Trade[] = [];
+
+    public static readonly subject: string = "trade-collection";
     public static readonly schema: object = {
     "type": "record",
     "name": "TradeCollection",
@@ -113,11 +118,6 @@ export class TradeCollection extends BaseAvroRecord implements TradeCollectionIn
         }
     ]
 }
-
-    public producerId: string = "";
-    public exchange: string = "";
-    public market: string = "";
-    public trades: Trade[] = [];
 
     public schema(): object {
         return TradeCollection.schema;
