@@ -25,7 +25,7 @@ export class EnumConverter extends BaseConverter {
 
         rows.push(`export enum ${data.name} {`);
         for (const symbol of data.symbols) {
-            rows.push(`${SpecialCharacterHelper.TAB}${symbol},`);
+            rows.push(`${SpecialCharacterHelper.TAB}${symbol} = '${symbol}',`);
         }
         rows.push(`}`);
 
