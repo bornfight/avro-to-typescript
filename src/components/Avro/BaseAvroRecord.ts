@@ -1,5 +1,5 @@
 import * as avro from "avsc";
-import { Schema, Type } from "avsc";
+import { Type } from "avsc";
 import { Memoize } from "typescript-memoize";
 import { AvroRecord } from "./AvroRecord";
 
@@ -22,7 +22,7 @@ export abstract class BaseAvroRecord implements AvroRecord {
         return baseType.createResolver(newType) as Type;
     }
 
-    protected static internalDeserialize<T extends BaseAvroRecord>(buffer: Buffer, newSchema?: object) {
+    protected static internalDeserialize(buffer: Buffer, newSchema?: object) {
         const baseType = BaseAvroRecord.getTypeForSchema(this.schema);
         let resolver: object;
         let noCheck = false;
@@ -56,13 +56,17 @@ export abstract class BaseAvroRecord implements AvroRecord {
 
     private loadObjectValues(result: BaseAvroRecord, object: Type, transformation: object = {}) {
         Object.keys(object).forEach((key) => {
-            if (transformation.hasOwnProperty(key) && object[key] !== null) {
+            if (transformation.hasOwnProperty(key) && (object as any)[key] !== null) {
+                // @ts-ignore
                 if (Array.isArray(object[key])) {
+                    // @ts-ignore
                     result[key] = object[key].map(transformation[key]);
                 } else {
+                    // @ts-ignore
                     result[key] = transformation[key](object[key]);
                 }
             } else {
+                // @ts-ignore
                 result[key] = object[key];
             }
         });
