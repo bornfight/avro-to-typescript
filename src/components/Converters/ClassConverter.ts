@@ -74,12 +74,23 @@ export class ClassConverter extends RecordConverter {
         for (const field of data.fields) {
             let fieldType;
             let classRow;
-            if (TypeHelper.hasDefault(field) || TypeHelper.isOptional(field.type)) {
+
+            // If the type was defined earlier, fetch the entire thing from the cache.
+            let type = field.type;
+            if (TypeHelper.isRecordType(field.type)) {
+                this.recordCache[field.type.name.toString()] = field.type;
+                this.interfaceRows.push(...this.extractInterface(type as RecordType));
+                this.interfaceRows.push("");
+            } else {
+                type = this.recordCache[field.type.toString()];
+            }
+
+            if (TypeHelper.hasDefault(field) || TypeHelper.isOptional(type)) {
                 const defaultValue = TypeHelper.hasDefault(field) ? ` = ${TypeHelper.getDefault(field)}` : "";
-                fieldType = `${this.getField(field)}`;
+                fieldType = `${this.getField(field.name, type)}`;
                 classRow = `${TAB}public ${fieldType}${defaultValue};`;
             } else {
-                const convertedType = this.convertType(field.type);
+                const convertedType = this.convertType(type);
                 fieldType = `${field.name}: ${convertedType}`;
                 classRow = `${TAB}public ${field.name}!: ${convertedType};`;
             }
