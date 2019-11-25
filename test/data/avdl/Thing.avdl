@@ -1,0 +1,8 @@
+protocol x {
+
+  @namespace("records")
+  record Thing {
+    int id;
+  }
+
+}
