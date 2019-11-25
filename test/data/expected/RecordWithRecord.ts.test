@@ -1,0 +1,8 @@
+export interface Thing {
+    id: number;
+}
+
+export interface User {
+    thing1: Thing;
+    thing2: Thing;
+}
