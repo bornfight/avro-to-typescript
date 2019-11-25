@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import { RecordConverter } from "../../../src";
+import {ClassConverter, RecordConverter} from "../../../src";
 
 const expect = chai.expect;
 
@@ -17,7 +17,7 @@ const getExpectedResult = (file: string) => {
 
 describe("New RecordType Converter test", () => {
     it("should convert a record with default sub-records", () => {
-        const converter = new RecordConverter();
+        const converter = new ClassConverter();
         converter.convert(`${avscDir}/RecordWithRecord.avsc`);
 
         const actual = converter.joinExports();

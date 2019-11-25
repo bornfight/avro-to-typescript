@@ -1,8 +1,56 @@
+// tslint:disable
+import { BaseAvroRecord } from "../BaseAvroRecord";
+
 export interface Thing {
     id: number;
 }
 
-export interface User {
+export interface RecordWithRecordInterface {
     thing1: Thing;
     thing2: Thing;
+}
+
+export class RecordWithRecord extends BaseAvroRecord implements RecordWithRecordInterface {
+
+    public thing1!: Thing;
+    public thing2: Thing = {
+        id: 0
+    };
+
+    public static readonly subject: string = "record-with-record";
+    public static readonly schema: object = {
+    "type": "record",
+    "name": "RecordWithRecord",
+    "namespace": "records",
+    "fields": [
+        {
+            "name": "thing1",
+            "type": {
+                "type": "record",
+                "name": "Thing",
+                "fields": [
+                    {
+                        "name": "id",
+                        "type": "int"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "thing2",
+            "type": "Thing",
+            "default": {
+                "id": 0
+            }
+        }
+    ]
+}
+
+    public schema(): object {
+        return RecordWithRecord.schema;
+    }
+
+    public subject(): string {
+        return RecordWithRecord.subject;
+    }
 }
