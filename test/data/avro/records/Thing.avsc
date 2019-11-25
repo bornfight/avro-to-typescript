@@ -1,0 +1,9 @@
+{
+  "type" : "record",
+  "name" : "Thing",
+  "namespace" : "records",
+  "fields" : [ {
+    "name" : "id",
+    "type" : "int"
+  } ]
+}
