@@ -66,9 +66,12 @@ export class RecordConverter extends BaseConverter {
         }
 
         if (TypeHelper.isRecordType(type)) {
-            this.recordCache[type.name.toString()] = type;
-            this.interfaceRows.push(...this.extractInterface(type));
-            this.interfaceRows.push("");
+            if (! (type.name in this.recordCache) ) {
+                this.recordCache[type.name.toString()] = type;
+                this.interfaceRows.push(...this.extractInterface(type));
+                this.interfaceRows.push("");
+            }
+
             return type.name;
         }
 
