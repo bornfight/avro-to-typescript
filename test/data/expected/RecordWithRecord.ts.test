@@ -13,9 +13,7 @@ export interface RecordWithRecordInterface {
 export class RecordWithRecord extends BaseAvroRecord implements RecordWithRecordInterface {
 
     public thing1!: Thing;
-    public thing2: Thing = {
-        id: 0
-    };
+    public thing2: Thing = {"id":0};
 
     public static readonly subject: string = "record-with-record";
     public static readonly schema: object = {

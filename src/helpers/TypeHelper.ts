@@ -1,3 +1,4 @@
+import {isObject} from "util";
 import {
     ArrayType,
     EnumType,
@@ -85,6 +86,10 @@ export class TypeHelper {
 
         if (Array.isArray(field.default) && field.default.length === 0) {
             return `[]`;
+        }
+
+        if (isObject(field.default)) {
+            return JSON.stringify(field.default);
         }
 
         return field.default;
