@@ -1,21 +1,21 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import {ClassConverter, RecordConverter} from "../../../src";
+import {ClassConverter} from "../../../src";
+import {dataDir} from "../../utils";
 
 const expect = chai.expect;
 
 chai.should();
 
-const dataDir = path.join(__dirname, "..", "..", "data");
-const avscDir = path.join(dataDir, "avro", "records");
-const expectedDir = path.join(dataDir, "expected");
+const avscDir = path.join(dataDir(), "avro", "records");
+const expectedDir = path.join(dataDir(), "expected");
 
 const getExpectedResult = (file: string) => {
     return fs.readFileSync(file).toString();
 };
 
-describe("New RecordType Converter test", () => {
+describe("New Class Converter test", () => {
     it("should convert a record with default sub-records", () => {
         const converter = new ClassConverter();
         converter.convert(`${avscDir}/RecordWithRecord.avsc`);

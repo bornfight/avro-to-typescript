@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "npm run build && node ./dist/src/index.js",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "prepublishOnly": "npm run test && npm run generate-barrels",
     "generate-barrels": "barrelsby --directory src/ --delete --include components src/interfaces --exclude base Avro/compression Avro/schema_registry",
     "test": "npm run tslint & npm run mocha",

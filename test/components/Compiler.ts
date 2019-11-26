@@ -2,15 +2,15 @@ import * as chai from "chai";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { Compiler } from "../../src";
+import {dataDir} from "../utils";
 
 const expect = chai.expect;
 
 chai.should();
 
-const dataFolder = path.resolve(`${__dirname}/../../../test/data/`);
-const avroFolder = path.resolve(dataFolder + `/avro/`);
-const expectedFolder = path.resolve(dataFolder + `/expected/`);
-const compiledFolder = path.resolve(dataFolder + `/compiled/`);
+const avroFolder = path.resolve(dataDir() + `/avro/`);
+const expectedFolder = path.resolve(dataDir() + `/expected/`);
+const compiledFolder = path.resolve(dataDir() + `/compiled/`);
 
 describe("Testing Compiler", () => {
 
