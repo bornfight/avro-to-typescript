@@ -56,7 +56,7 @@
     "@degordian/standards": "^1.0.8",
     "@degordian/testing-toolkit": "^1.0.18",
     "mocha-typescript": "^1.1.16",
-    "tslint": "^5.10.0",
+    "tslint": "^6.1.1",
     "typescript": "^2.9.1"
   }
 }
