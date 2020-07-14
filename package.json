@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@degordian/avro-to-typescript": "latest",
-    "@degordian/standards": "^1.0.8",
+    "@degordian/standards": "^2.0.0",
     "@degordian/testing-toolkit": "^1.0.18",
     "mocha-typescript": "^1.1.16",
     "tslint": "^6.1.2",
