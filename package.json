@@ -46,7 +46,7 @@
     "@types/node": "^14.0.22",
     "@types/schema-registry": "^1.17.0",
     "command-line-args": "^5.0.2",
-    "command-line-usage": "^5.0.5",
+    "command-line-usage": "^6.1.0",
     "fs-extra": "^5.0.0",
     "schema-registry": "^1.17.0",
     "typescript-memoize": "^1.0.0-alpha.3"
