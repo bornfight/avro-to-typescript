@@ -40,15 +40,19 @@ export class RecordConverter extends BaseConverter {
     }
 
     protected convertType(type: Type): string {
+        if(typeof type === "object" && typeof type.type === "string") {
+            type = type.type;
+        }
+        
         if (typeof type === "string") {
             const converter = new PrimitiveConverter();
-
+            
             return converter.convert(type);
         }
 
         if (TypeHelper.isLogicalType(type)) {
             const converter = new LogicalTypeConverter(this.logicalTypesMap);
-
+            
             return converter.convert(type);
         }
 
