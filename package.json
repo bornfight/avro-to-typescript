@@ -43,7 +43,7 @@
     "@types/command-line-args": "^5.0.0",
     "@types/command-line-usage": "^5.0.1",
     "@types/fs-extra": "^5.0.3",
-    "@types/node": "^14.0.22",
+    "@types/node": "^16.3.2",
     "@types/schema-registry": "^1.17.0",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^6.1.0",
